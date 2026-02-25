@@ -1,0 +1,393 @@
+/* ========================= */
+/* GLOBAL */
+/* ========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #0f0f0f, #000000);
+  color: white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+
+/* 🔵 Luz azul gamer */
+body::before {
+  content: "";
+  position: fixed;
+  top: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+  background: #00f7ff;
+  filter: blur(250px);
+  opacity: 0.18;
+  z-index: -1;
+}
+
+/* 🔴 Luz rosa gamer */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: -150px;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+  background: #ff0077;
+  filter: blur(250px);
+  opacity: 0.15;
+  z-index: -1;
+}
+
+/* ========================= */
+/* TITULOS */
+/* ========================= */
+
+h1 {
+  font-size: 42px;
+  margin: 30px 0;
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h2 {
+  text-align: center;
+}
+
+/* ========================= */
+/* PODIO PROFISSIONAL CORRIGIDO */
+/* ========================= */
+
+#podio {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 40px;
+  margin-top: 90px;
+  margin-bottom: 50px; /* 🔥 AUMENTEI O ESPAÇO EM BAIXO */
+  flex-wrap: wrap;
+}
+
+/* CARD PADRÃO */
+.podio-item {
+  width: 230px;
+  padding: 30px 20px;
+  border-radius: 25px;
+  text-align: center;
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s ease;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Hover */
+.podio-item:hover {
+  transform: translateY(-12px) scale(1.05);
+}
+
+/* 🥇 PRIMEIRO */
+.podio-1 {
+  order: 2;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background: linear-gradient(135deg, #ffd700, #ffae00);
+  color: black;
+  box-shadow: 0 0 40px gold;
+}
+
+/* 🥈 SEGUNDO */
+.podio-2 {
+  order: 1;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background: linear-gradient(135deg, #c0c0c0, #e6e6e6);
+  color: black;
+}
+
+/* 🥉 TERCEIRO */
+.podio-3 {
+  order: 3;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background: linear-gradient(135deg, #cd7f32, #8b5a2b);
+  color: white;
+}
+
+.podio-item h3 {
+  font-size: 36px;
+  margin: 0;
+}
+
+.podio-item p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ========================= */
+/* RANKING LISTA */
+/* ========================= */
+
+#ranking {
+  width: 100%;
+  padding: 0 10px;
+  list-style: none;
+}
+
+#ranking li {
+  background: rgba(255,255,255,0.08);
+  margin: 12px auto;
+  padding: 14px;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  font-size: 18px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+#ranking li:hover {
+  background: rgba(0,247,255,0.2);
+  transform: scale(1.02);
+}
+
+/* ========================= */
+/* ADMIN */
+/* ========================= */
+
+.container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+}
+
+.sidebar {
+  width: 260px;
+  background: #111;
+  padding: 20px;
+  border-right: 2px solid gold;
+}
+
+.sidebar h2 {
+  color: gold;
+}
+
+.sidebar ul {
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar li {
+  padding: 8px;
+  border-bottom: 1px solid #333;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+.card-admin {
+  background: #1e1e1e;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ========================= */
+/* INPUTS */
+/* ========================= */
+
+button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: gold;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+input,
+select {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* ========================= */
+/* GALERIA */
+/* ========================= */
+
+#galeria {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 100px;
+  gap: 20px;
+  justify-content: center;
+}
+
+.player-box {
+  background: #1e1e1e;
+  padding: 25px;
+  border-radius: 18px;
+  width: 190px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.player-box:hover {
+  background: linear-gradient(135deg, #00f7ff, #ff0077);
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0,255,255,0.6);
+}
+
+/* ========================= */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  justify-content: center;
+  align-items: center;
+  padding: 40px; /* 🔥 adiciona espaço da borda */
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  color: black;
+  padding: 40px 30px;
+  border-radius: 20px;
+  width: 350px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* Botão fechar */
+#fechar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 26px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+#fechar:hover {
+  transform: scale(1.2);
+  color: red;
+}
+/* ========================= */
+/* RESPONSIVO */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  h1 {
+    font-size: 28px;
+  }
+
+  #podio {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .podio-item {
+    width: 95%;
+  }
+
+  #ranking li {
+    font-size: 16px;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid gold;
+  }
+
+  .main {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+/* ========================= */
+/* FAIXAS COLORIDAS EFOOTBALL */
+/* ========================= */
+
+/* ========================= */
+/* FAIXAS COLORIDAS FORTE */
+/* ========================= */
+
+.faixas-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -3;
+}
+
+/* 🔵 Faixa Azul Forte */
+.faixas-bg::before {
+  content: "";
+  position: absolute;
+  top: 25%;
+  left: -10%;
+  width: 120%;
+  height: 140px;
+  background: #00f7ff; /* COR FORTE */
+  transform: rotate(-5deg);
+  opacity: 0.15;
+}
+
+/* 🔴 Faixa Rosa Forte */
+.faixas-bg::after {
+  content: "";
+  position: absolute;
+  bottom: 20%;
+  left: -10%;
+  width: 120%;
+  height: 140px;
+  background: #ff0077; /* COR FORTE */
+  transform: rotate(5deg);
+  opacity: 0.15;
+}

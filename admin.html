@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="faixas-bg"></div>
+
+<div class="container">
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar">
+
+<h2>👥 Players</h2>
+
+<input type="text" id="novoPlayer" placeholder="Nome do player">
+<button id="addPlayer">Adicionar Player</button>
+
+<ul id="listaPlayers"></ul>
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+<main class="main">
+
+<h1>Painel Administrativo</h1>
+
+<!-- 🔥 CRIAR CAMPEONATO -->
+<div class="card-admin">
+
+<h2>🏆 Criar Campeonato</h2>
+
+<input type="text" id="nomeCampeonato" placeholder="Nome do Campeonato">
+
+<div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
+
+<div>
+<label>🥇 Campeão (1º Lugar)</label>
+<select id="primeiroLugar"></select>
+</div>
+
+<div>
+<label>🥈 Vice-Campeão (2º Lugar)</label>
+<select id="segundoLugar"></select>
+</div>
+
+<div>
+<label>🥉 3º Lugar (Bronze)</label>
+<select id="terceiroLugar"></select>
+</div>
+
+</div>
+
+<button id="criarCampeonato" style="margin-top:15px;">
+Salvar Campeonato
+</button>
+
+</div>
+
+<!-- ================= CAMPEONATOS ================= -->
+
+<h3>Campeonatos Criados</h3>
+<div id="listaTitulos"></div>
+
+</main>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { 
+getFirestore, 
+collection, 
+addDoc, 
+onSnapshot,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "SUA_API_KEY",
+authDomain: "ranking-campeoes.firebaseapp.com",
+projectId: "ranking-campeoes",
+storageBucket: "ranking-campeoes.firebasestorage.app",
+messagingSenderId: "1049217546195",
+appId: "1:1049217546195:web:6a10959a84949e3456e126"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const listaPlayers = document.getElementById("listaPlayers");
+const primeiro = document.getElementById("primeiroLugar");
+const segundo = document.getElementById("segundoLugar");
+const terceiro = document.getElementById("terceiroLugar");
+
+/* ================= PLAYERS ================= */
+
+document.getElementById("addPlayer").onclick = async () => {
+
+const nome = document.getElementById("novoPlayer").value.trim();
+if (!nome) return;
+
+await addDoc(collection(db, "players"), { nome });
+
+document.getElementById("novoPlayer").value = "";
+};
+
+/* ===== LISTAR PLAYERS COM BOTÃO EXCLUIR ===== */
+
+onSnapshot(collection(db, "players"), (snap) => {
+
+listaPlayers.innerHTML = "";
+primeiro.innerHTML = "";
+segundo.innerHTML = "";
+terceiro.innerHTML = "";
+
+snap.forEach(docSnap => {
+
+const nome = docSnap.data().nome;
+
+/* 🔥 LI PERSONALIZADO */
+
+const li = document.createElement("li");
+
+li.style.display = "flex";
+li.style.justifyContent = "space-between";
+li.style.alignItems = "center";
+li.style.padding = "8px";
+li.style.borderBottom = "1px solid #333";
+
+li.innerHTML = `
+<span>${nome}</span>
+<button style="
+background:red;
+color:white;
+border:none;
+border-radius:6px;
+padding:4px 8px;
+cursor:pointer;
+">❌</button>
+`;
+
+li.querySelector("button").onclick = async () => {
+
+if (confirm("Excluir esse player?")) {
+await deleteDoc(doc(db, "players", docSnap.id));
+}
+
+};
+
+listaPlayers.appendChild(li);
+
+/* 🔥 POPULAR SELECTS */
+
+primeiro.innerHTML += `<option value="${nome}">${nome}</option>`;
+segundo.innerHTML += `<option value="${nome}">${nome}</option>`;
+terceiro.innerHTML += `<option value="${nome}">${nome}</option>`;
+
+});
+
+});
+
+/* ================= CRIAR CAMPEONATO ================= */
+
+document.getElementById("criarCampeonato").onclick = async () => {
+
+const nomeCamp = document.getElementById("nomeCampeonato").value;
+if (!nomeCamp) return alert("Digite o nome");
+
+await addDoc(collection(db, "campeonatos"), {
+nomeCampeonato: nomeCamp,
+primeiro: primeiro.value,
+segundo: segundo.value,
+terceiro: terceiro.value,
+data: new Date()
+});
+
+alert("Campeonato salvo!");
+};
+
+/* ================= LISTAR CAMPEONATOS ================= */
+
+onSnapshot(collection(db, "campeonatos"), (snap) => {
+
+const container = document.getElementById("listaTitulos");
+container.innerHTML = "";
+
+snap.forEach(docSnap => {
+
+const data = docSnap.data();
+
+const bloco = document.createElement("div");
+bloco.className = "card-admin";
+
+/* HEADER */
+
+const header = document.createElement("div");
+header.style.display = "flex";
+header.style.justifyContent = "space-between";
+header.style.alignItems = "center";
+
+/* TITULO */
+
+const titulo = document.createElement("h4");
+titulo.style.cursor = "pointer";
+titulo.textContent = "🏆 " + data.nomeCampeonato;
+
+/* BOTÃO EXCLUIR */
+
+const btnExcluir = document.createElement("button");
+
+btnExcluir.textContent = "❌";
+btnExcluir.style.background = "red";
+btnExcluir.style.color = "white";
+btnExcluir.style.border = "none";
+btnExcluir.style.cursor = "pointer";
+btnExcluir.style.borderRadius = "6px";
+btnExcluir.style.padding = "5px 10px";
+
+btnExcluir.onclick = async () => {
+
+if (confirm("Tem certeza que deseja excluir esse campeonato?")) {
+await deleteDoc(doc(db, "campeonatos", docSnap.id));
+}
+
+};
+
+/* INFO */
+
+const info = document.createElement("div");
+info.style.display = "none";
+info.innerHTML = `
+<p>🥇 ${data.primeiro}</p>
+<p>🥈 ${data.segundo}</p>
+<p>🥉 ${data.terceiro}</p>
+`;
+
+/* ABRIR / FECHAR */
+
+titulo.onclick = () => {
+info.style.display =
+info.style.display === "none" ? "block" : "none";
+};
+
+/* MONTAR */
+
+header.appendChild(titulo);
+header.appendChild(btnExcluir);
+
+bloco.appendChild(header);
+bloco.appendChild(info);
+
+container.appendChild(bloco);
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

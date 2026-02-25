@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Ranking</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="faixas-bg"></div>
+
+<h1>🏆MAIORES CAMPEÕES🏆</h1>
+
+<div id="podio"></div>
+
+<h2>Titulos de cada Players</h2>
+<div id="galeria"></div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+<div class="modal-content">
+<span id="fechar">&times;</span>
+<div id="detalhes"></div>
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "SUA_API_KEY",
+authDomain: "ranking-campeoes.firebaseapp.com",
+projectId: "ranking-campeoes",
+storageBucket: "ranking-campeoes.firebasestorage.app",
+messagingSenderId: "1049217546195",
+appId: "1:1049217546195:web:6a10959a84949e3456e126"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const podio = document.getElementById("podio");
+const galeria = document.getElementById("galeria");
+const modal = document.getElementById("modal");
+const detalhes = document.getElementById("detalhes");
+
+document.getElementById("fechar").onclick = () => modal.style.display = "none";
+
+/* ================= CALCULAR RANKING ================= */
+
+onSnapshot(collection(db, "campeonatos"), (snap) => {
+
+const stats = {};
+
+/* 🔥 Monta estatísticas */
+snap.forEach(docSnap => {
+
+const data = docSnap.data();
+
+["primeiro","segundo","terceiro"].forEach(pos => {
+
+const nome = data[pos];
+
+if (!nome) return;
+
+if (!stats[nome]) {
+stats[nome] = { primeiro:0, segundo:0, terceiro:0 };
+}
+
+stats[nome][pos]++;
+
+});
+
+});
+
+/* ================= ORDENAR COM DESEMPATE ================= */
+
+const ordenado = Object.entries(stats)
+.sort((a, b) => {
+
+const totalA = a[1].primeiro + a[1].segundo + a[1].terceiro;
+const totalB = b[1].primeiro + b[1].segundo + b[1].terceiro;
+
+/* 🔥 1º critério: total */
+if (totalB !== totalA) {
+return totalB - totalA;
+}
+
+/* 🔥 2º critério: mais ouro */
+if (b[1].primeiro !== a[1].primeiro) {
+return b[1].primeiro - a[1].primeiro;
+}
+
+/* 🔥 3º critério: mais prata */
+if (b[1].segundo !== a[1].segundo) {
+return b[1].segundo - a[1].segundo;
+}
+
+/* 🔥 4º critério: mais bronze */
+return b[1].terceiro - a[1].terceiro;
+
+});
+
+/* ================= PODIO ================= */
+
+podio.innerHTML = "";
+
+ordenado.slice(0,3).forEach((j,i)=>{
+
+const div = document.createElement("div");
+div.classList.add("podio-item");
+
+if(i === 0) div.classList.add("podio-1");
+if(i === 1) div.classList.add("podio-2");
+if(i === 2) div.classList.add("podio-3");
+
+div.innerHTML = `
+<h3>${i+1}º</h3>
+<p>${j[0]}</p>
+<p>🥇 ${j[1].primeiro}</p>
+<p>🥈 ${j[1].segundo}</p>
+<p>🥉 ${j[1].terceiro}</p>
+`;
+
+podio.appendChild(div);
+
+});
+
+/* ================= GALERIA ================= */
+
+galeria.innerHTML = "";
+
+ordenado.forEach(player => {
+
+const nome = player[0];
+const dados = player[1];
+
+const box = document.createElement("div");
+box.className = "player-box";
+
+box.innerHTML = `<h3>${nome}</h3>`;
+
+box.onclick = () => {
+
+detalhes.innerHTML = `
+<h2>${nome}</h2>
+<p>🥇 Primeiro: ${dados.primeiro}</p>
+<p>🥈 Segundo: ${dados.segundo}</p>
+<p>🥉 Terceiro: ${dados.terceiro}</p>
+`;
+
+modal.style.display = "flex";
+
+};
+
+galeria.appendChild(box);
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
