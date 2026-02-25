@@ -124,8 +124,6 @@ snap.forEach(docSnap => {
 
 const nome = docSnap.data().nome;
 
-/* 🔥 LI PERSONALIZADO */
-
 const li = document.createElement("li");
 
 li.style.display = "flex";
@@ -136,14 +134,7 @@ li.style.borderBottom = "1px solid #333";
 
 li.innerHTML = `
 <span>${nome}</span>
-<button style="
-background:red;
-color:white;
-border:none;
-border-radius:6px;
-padding:4px 8px;
-cursor:pointer;
-">❌</button>
+<button class="btn-excluir">❌</button>
 `;
 
 li.querySelector("button").onclick = async () => {
@@ -156,7 +147,7 @@ await deleteDoc(doc(db, "players", docSnap.id));
 
 listaPlayers.appendChild(li);
 
-/* 🔥 POPULAR SELECTS */
+/* POPULAR SELECTS */
 
 primeiro.innerHTML += `<option value="${nome}">${nome}</option>`;
 segundo.innerHTML += `<option value="${nome}">${nome}</option>`;
@@ -197,8 +188,6 @@ const data = docSnap.data();
 
 const bloco = document.createElement("div");
 bloco.className = "card-admin";
-
-/* HEADER */
 
 const header = document.createElement("div");
 header.style.display = "flex";

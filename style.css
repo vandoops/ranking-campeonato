@@ -391,3 +391,21 @@ select {
   transform: rotate(5deg);
   opacity: 0.15;
 }
+
+/* 🔥 BOTÃO EXCLUIR PLAYER (RESPONSIVO) */
+
+.btn-excluir {
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  width: auto !important; /* 👈 impede virar botão gigante */
+}
+
+.btn-excluir:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
