@@ -7,6 +7,18 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- 🔐 TELA DE LOGIN -->
+<div id="loginTela" class="login-overlay">
+  <div class="login-box">
+    <h2>🔐 Acesso Restrito</h2>
+
+    <input type="password" id="senhaInput" placeholder="Digite a senha">
+
+    <button id="btnLogin">Entrar</button>
+
+    <p id="erroLogin" class="erro-login"></p>
+  </div>
+</div>
 
 <div class="faixas-bg"></div>
 
@@ -30,6 +42,8 @@
   
 
 <h1>Painel Administrativo</h1>
+
+<button id="btnLogout" class="btn-logout">Sair</button>
 
 <!-- 🔥 BOTÃO IR PARA RANKING -->
 <div style="margin-bottom:20px;">
@@ -82,6 +96,38 @@ Salvar Campeonato
 </div>
 
 <script type="module">
+
+  /* ================= LOGOUT ================= */
+
+const btnLogout = document.getElementById("btnLogout");
+
+btnLogout.onclick = () => {
+  localStorage.removeItem("adminLogado");
+  location.reload(); // recarrega e volta pra tela de login
+};
+
+  /* ================= LOGIN SIMPLES ================= */
+
+const SENHA_CORRETA = "lecoloco"; // 👈 coloque sua senha aqui
+
+const loginTela = document.getElementById("loginTela");
+const btnLogin = document.getElementById("btnLogin");
+const senhaInput = document.getElementById("senhaInput");
+const erroLogin = document.getElementById("erroLogin");
+
+/* Se já estiver logado */
+if (localStorage.getItem("adminLogado") === "true") {
+  loginTela.style.display = "none";
+}
+
+btnLogin.onclick = () => {
+  if (senhaInput.value === SENHA_CORRETA) {
+    localStorage.setItem("adminLogado", "true");
+    loginTela.style.display = "none";
+  } else {
+    erroLogin.textContent = "Senha incorreta!";
+  }
+};
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { 
