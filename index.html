@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <title>Ranking</title>
 <link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.json">
+
+<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#111111">
-<link rel="icon" href="logo.png">
+<link rel="icon" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
 
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
@@ -167,6 +169,13 @@ galeria.appendChild(box);
 
 });
 
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("SW registrado"));
+}
 </script>
 
 </body>
