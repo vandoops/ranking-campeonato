@@ -1,3 +1,13 @@
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-y: auto;
+}
+
+
 /* ========================= */
 /* GLOBAL */
 /* ========================= */
@@ -9,18 +19,20 @@
 body {
   margin: 0;
   padding: 0;
-  width: 100%;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at top, #0f0f0f, #000000);
   color: white;
-  position: relative;
-  overflow-x: hidden;
+
+  background: 
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url("fundo.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-
-
-/* 🔵 Luz azul gamer */
+/* 🔵 Luz azul */
 body::before {
   content: "";
   position: fixed;
@@ -30,11 +42,11 @@ body::before {
   height: 500px;
   background: #00f7ff;
   filter: blur(250px);
-  opacity: 0.18;
+  opacity: 0.15;
   z-index: -1;
 }
 
-/* 🔴 Luz rosa gamer */
+/* 🔴 Luz rosa */
 body::after {
   content: "";
   position: fixed;
@@ -44,7 +56,7 @@ body::after {
   height: 500px;
   background: #ff0077;
   filter: blur(250px);
-  opacity: 0.15;
+  opacity: 0.12;
   z-index: -1;
 }
 
@@ -53,224 +65,233 @@ body::after {
 /* ========================= */
 
 h1 {
-  font-size: 42px;
-  margin: 30px 0;
+  font-size: 38px;
+  margin: 0;
   letter-spacing: 2px;
-  text-align: center;
   text-transform: uppercase;
 }
 
 h2 {
-  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
 /* ========================= */
-/* PODIO PROFISSIONAL CORRIGIDO */
-/* ========================= */
-
-#podio {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 40px;
-  margin-top: 90px;
-  margin-bottom: 50px; /* 🔥 AUMENTEI O ESPAÇO EM BAIXO */
-  flex-wrap: wrap;
-}
-
-/* CARD PADRÃO */
-.podio-item {
-  width: 230px;
-  padding: 30px 20px;
-  border-radius: 25px;
-  text-align: center;
-  backdrop-filter: blur(15px);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  transition: 0.3s ease;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Hover */
-.podio-item:hover {
-  transform: translateY(-12px) scale(1.05);
-}
-
-/* 🥇 PRIMEIRO */
-.podio-1 {
-  order: 2;
-  padding-top: 60px;
-  padding-bottom: 60px;
-  background: linear-gradient(135deg, #ffd700, #ffae00);
-  color: black;
-  box-shadow: 0 0 40px gold;
-}
-
-/* 🥈 SEGUNDO */
-.podio-2 {
-  order: 1;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background: linear-gradient(135deg, #c0c0c0, #e6e6e6);
-  color: black;
-}
-
-/* 🥉 TERCEIRO */
-.podio-3 {
-  order: 3;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  background: linear-gradient(135deg, #cd7f32, #8b5a2b);
-  color: white;
-}
-
-.podio-item h3 {
-  font-size: 36px;
-  margin: 0;
-}
-
-.podio-item p {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-/* ========================= */
-/* RANKING LISTA */
-/* ========================= */
-
-#ranking {
-  width: 100%;
-  padding: 0 10px;
-  list-style: none;
-}
-
-#ranking li {
-  background: rgba(255,255,255,0.08);
-  margin: 12px auto;
-  padding: 14px;
-  width: 100%;
-  max-width: 900px;
-  border-radius: 10px;
-  backdrop-filter: blur(5px);
-  font-size: 18px;
-  text-align: center;
-  transition: 0.3s;
-}
-
-#ranking li:hover {
-  background: rgba(0,247,255,0.2);
-  transform: scale(1.02);
-}
-
-/* ========================= */
-/* ADMIN */
+/* LAYOUT ADMIN */
 /* ========================= */
 
 .container {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   width: 100%;
-  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 30px;
 }
 
 .sidebar {
-  width: 260px;
-  background: #111;
-  padding: 20px;
-  border-right: 2px solid gold;
+  width: 280px;
+  background: rgba(20,20,30,0.95);
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  height: fit-content;
 }
 
 .sidebar h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  letter-spacing: 1px;
   color: gold;
 }
 
 .sidebar ul {
   padding: 0;
   list-style: none;
+  margin-top: 15px;
 }
 
 .sidebar li {
-  padding: 8px;
-  border-bottom: 1px solid #333;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   font-size: 14px;
-  word-break: break-word;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .main {
   flex: 1;
-  padding: 20px;
 }
 
-.card-admin {
-  background: #1e1e1e;
-  padding: 20px;
+/* ========================= */
+/* TOPO ADMIN */
+/* ========================= */
+
+.topo-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  border-radius: 15px;
-  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-ranking,
+.btn-logout {
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+/* Ranking */
+.btn-ranking {
+  background: linear-gradient(135deg, #00f7ff, #ff0077);
+  color: white;
+}
+
+/* Logout */
+.btn-logout {
+  background: #ff3b3b;
+  color: white;
+}
+
+/* ========================= */
+/* CARDS */
+/* ========================= */
+
+.card-admin {
+  background: rgba(30,30,40,0.95);
+  padding: 30px;
+  margin-bottom: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  transition: 0.3s ease;
+}
+
+.card-admin:hover {
+  transform: translateY(-5px);
 }
 
 /* ========================= */
 /* INPUTS */
 /* ========================= */
 
+input,
+select {
+  padding: 12px 14px;
+  margin: 8px 0;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+  border: 1px solid #00f7ff;
+  box-shadow: 0 0 10px rgba(0,247,255,0.4);
+}
+
+/* ========================= */
+/* SELECT DARK MODE */
+/* ========================= */
+
+select {
+  background: rgba(30,30,40,0.95);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select option {
+  background: #1c1c2e;
+  color: white;
+}
+
+/* ========================= */
+/* BOTÕES */
+/* ========================= */
+
 button {
-  padding: 8px 15px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  background: gold;
+  background: linear-gradient(135deg, #ffd700, #ffae00);
   font-weight: bold;
   transition: 0.3s;
 }
 
 button:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255,215,0,0.4);
 }
 
-input,
-select {
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 8px;
-  border: none;
-  width: 100%;
-  max-width: 300px;
-}
-
-/* ========================= */
-/* GALERIA */
-/* ========================= */
-
-#galeria {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 100px;
-  gap: 20px;
-  justify-content: center;
-}
-
-.player-box {
-  background: #1e1e1e;
-  padding: 25px;
-  border-radius: 18px;
-  width: 190px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-.player-box:hover {
+/* Botão ranking */
+.btn-ranking {
   background: linear-gradient(135deg, #00f7ff, #ff0077);
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(0,255,255,0.6);
+  color: white;
+}
+
+/* Botão excluir */
+.btn-excluir {
+  background: #ff3b3b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: 0.2s;
+}
+
+.btn-excluir:hover {
+  background: #ff0000;
+  transform: scale(1.1);
+}
+
+/* Botão logout */
+.btn-logout {
+  background: #ff3b3b;
+  color: white;
+}
+
+.btn-logout:hover {
+  background: #ff0000;
 }
 
 /* ========================= */
+/* LISTA CAMPEONATOS */
+/* ========================= */
+
+#listaTitulos {
+  display: grid;
+  gap: 20px;
+}
+
+/* ========================= */
+/* MODAL */
+/* ========================= */
+
 .modal {
   display: none;
   position: fixed;
@@ -278,7 +299,7 @@ select {
   background: rgba(0,0,0,0.75);
   justify-content: center;
   align-items: center;
-  padding: 40px; /* 🔥 adiciona espaço da borda */
+  padding: 40px;
   z-index: 999;
 }
 
@@ -294,7 +315,6 @@ select {
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
-/* Botão fechar */
 #fechar {
   position: absolute;
   top: 15px;
@@ -309,126 +329,14 @@ select {
   transform: scale(1.2);
   color: red;
 }
-/* ========================= */
-/* RESPONSIVO */
-/* ========================= */
-
-@media (max-width: 768px) {
-
-  h1 {
-    font-size: 28px;
-  }
-
-  #podio {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .podio-item {
-    width: 95%;
-  }
-
-  #ranking li {
-    font-size: 16px;
-  }
-
-  .container {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 2px solid gold;
-  }
-
-  .main {
-    width: 100%;
-  }
-
-  button {
-    width: 100%;
-  }
-}
 
 /* ========================= */
-/* FAIXAS COLORIDAS EFOOTBALL */
+/* LOGIN */
 /* ========================= */
-
-/* ========================= */
-/* FAIXAS COLORIDAS FORTE */
-/* ========================= */
-
-.faixas-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -3;
-}
-
-/* 🔵 Faixa Azul Forte */
-.faixas-bg::before {
-  content: "";
-  position: absolute;
-  top: 25%;
-  left: -10%;
-  width: 120%;
-  height: 140px;
-  background: #00f7ff; /* COR FORTE */
-  transform: rotate(-5deg);
-  opacity: 0.15;
-}
-
-/* 🔴 Faixa Rosa Forte */
-.faixas-bg::after {
-  content: "";
-  position: absolute;
-  bottom: 20%;
-  left: -10%;
-  width: 120%;
-  height: 140px;
-  background: #ff0077; /* COR FORTE */
-  transform: rotate(5deg);
-  opacity: 0.15;
-}
-
-/* 🔥 BOTÃO EXCLUIR PLAYER (RESPONSIVO) */
-
-.btn-excluir {
-  background: red;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 4px 8px;
-  cursor: pointer;
-  transition: 0.2s;
-  width: auto !important; /* 👈 impede virar botão gigante */
-}
-
-.btn-excluir:hover {
-  opacity: 0.8;
-  transform: scale(1.1);
-}
-
-.btn-ranking {
-  background: linear-gradient(135deg, #00f7ff, #ff0077);
-  color: white;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-/* ================= LOGIN ================= */
 
 .login-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: #0f0f1a;
   display: flex;
   justify-content: center;
@@ -439,39 +347,14 @@ select {
 .login-box {
   background: #1c1c2e;
   padding: 40px;
-  border-radius: 12px;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  width: 300px;
-}
-
-.login-box h2 {
-  color: white;
-  margin-bottom: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  width: 320px;
 }
 
 .login-box input {
   width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  margin-bottom: 15px;
-}
-
-.login-box button {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  background: linear-gradient(135deg, #00f7ff, #ff0077);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.login-box button:hover {
-  transform: scale(1.05);
 }
 
 .erro-login {
@@ -479,23 +362,110 @@ select {
   margin-top: 10px;
 }
 
-/* ================= BOTÃO LOGOUT ================= */
+/* ========================= */
+/* RESPONSIVO */
+/* ========================= */
 
-.btn-logout {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #ff3b3b;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
+/* ========================= */
+/* RESPONSIVO MOBILE REAL */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  /* Layout geral */
+  .container {
+    flex-direction: column;
+    padding: 20px 15px;
+    gap: 20px;
+  }
+
+  /* Sidebar vira bloco normal */
+  .sidebar {
+    width: 100%;
+    padding: 20px;
+  }
+
+  /* Topo admin */
+  .topo-admin {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .topo-admin h1 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  /* Cards */
+  .card-admin {
+    padding: 20px;
+  }
+
+  /* Inputs mais confortáveis */
+  input,
+  select {
+    font-size: 16px;
+  }
+
+  /* Botões full largura */
+  button,
+  .btn-ranking,
+  .btn-logout {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Lista campeonatos */
+  .sidebar ul {
+  padding: 0;
+  list-style: none;
+  margin-top: 15px;
 }
 
-.btn-logout:hover {
-  background: #ff0000;
-  transform: scale(1.05);
+.sidebar li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  font-size: 14px;
+  transition: 0.2s;
 }
+
+.sidebar li:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+  /* Modal */
+  .modal {
+    padding: 20px;
+  }
+
+  .modal-content {
+    width: 100%;
+    padding: 25px 20px;
+  }
+
+  /* Login */
+  .login-box {
+    width: 90%;
+    padding: 30px 20px;
+  }
+
+  /* Títulos globais menores */
+  h1 {
+    font-size: 26px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+}
+
+

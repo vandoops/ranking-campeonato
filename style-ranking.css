@@ -1,0 +1,216 @@
+/* ========================= */
+/* GLOBAL RANKING */
+/* ========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #0f0f0f, #000000);
+  color: white;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+/* Luz azul */
+body::before {
+  content: "";
+  position: fixed;
+  top: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+  background: #00f7ff;
+  filter: blur(250px);
+  opacity: 0.15;
+  z-index: -1;
+}
+
+/* Luz rosa */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: -150px;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+  background: #ff0077;
+  filter: blur(250px);
+  opacity: 0.12;
+  z-index: -1;
+}
+
+h1 {
+  font-size: 42px;
+  margin-top: 40px;
+  letter-spacing: 2px;
+}
+
+h2 {
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+
+/* ========================= */
+/* PÓDIO */
+/* ========================= */
+
+#podio {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 40px;
+  margin-top: 80px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+.podio-item {
+  width: 230px;
+  padding: 30px 20px;
+  border-radius: 25px;
+  text-align: center;
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s ease;
+}
+
+.podio-item:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+/* 🥇 */
+.podio-1 {
+  order: 2;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background: linear-gradient(135deg, #ffd700, #ffae00);
+  color: black;
+  box-shadow: 0 0 40px gold;
+}
+
+/* 🥈 */
+.podio-2 {
+  order: 1;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background: linear-gradient(135deg, #c0c0c0, #e6e6e6);
+  color: black;
+}
+
+/* 🥉 */
+.podio-3 {
+  order: 3;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background: linear-gradient(135deg, #cd7f32, #8b5a2b);
+  color: white;
+}
+
+.podio-item h3 {
+  font-size: 34px;
+  margin: 0;
+}
+
+.podio-item p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ========================= */
+/* GALERIA JOGADORES */
+/* ========================= */
+
+#galeria {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  padding: 0 20px 80px;
+}
+
+.player-box {
+  background: rgba(30,30,40,0.95);
+  padding: 30px;
+  border-radius: 20px;
+  width: 220px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.player-box:hover {
+  transform: translateY(-8px);
+  background: linear-gradient(135deg, #00f7ff, #ff0077);
+  box-shadow: 0 0 25px rgba(0,255,255,0.6);
+}
+
+.player-box h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+/* ========================= */
+/* MODAL */
+/* ========================= */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  color: black;
+  padding: 40px 30px;
+  border-radius: 20px;
+  width: 350px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+#fechar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* ========================= */
+/* RESPONSIVO */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  h1 {
+    font-size: 28px;
+  }
+
+  #podio {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .podio-item {
+    width: 95%;
+  }
+
+  .player-box {
+    width: 95%;
+  }
+}

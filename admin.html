@@ -54,15 +54,17 @@
 
 <h1>Painel Administrativo</h1>
 
-<button id="btnLogout" class="btn-logout">Sair</button>
+
 
 <!-- 🔥 BOTÃO IR PARA RANKING -->
-<div style="margin-bottom:20px;">
-  <a href="index.html" target="_blank">
-    <button class="btn-ranking">
-      🏆 Ver Ranking
-    </button>
+<div class="topo-admin">
+  <a href="index.html" target="_blank" class="btn-ranking">
+    🏆 Ver Ranking
   </a>
+
+  <button id="btnLogout" class="btn-logout">
+    Sair
+  </button>
 </div>
 
 <!-- 🔥 CRIAR CAMPEONATO -->
@@ -70,6 +72,7 @@
 
 <h2>🏆 Criar Campeonato</h2>
 
+<label>🥇 Qual o nome do Campeonato ?</label>
 <input type="text" id="nomeCampeonato" placeholder="Nome do Campeonato">
 
 <div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
@@ -230,7 +233,7 @@ terceiro.innerHTML += `<option value="${nome}">${nome}</option>`;
 document.getElementById("criarCampeonato").onclick = async () => {
 
 const nomeCamp = document.getElementById("nomeCampeonato").value;
-if (!nomeCamp) return alert("Digite o nome");
+if (!nomeCamp) return alert("Digite o nome do campeonato!");
 
 await addDoc(collection(db, "campeonatos"), {
 nomeCampeonato: nomeCamp,
