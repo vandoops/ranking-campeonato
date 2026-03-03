@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeria de Campeões</title>
+
+<link rel="stylesheet" href="galeria.css">
+</head>
+<body>
+
+<h1>📸 Galeria de Campeonatos</h1>
+
+<div id="galeria" class="galeria-grid"></div>
+
+<!-- MODAL UNIVERSAL -->
+<div id="modal" class="modal">
+  <span class="fechar">&times;</span>
+
+  <div class="modal-conteudo">
+    <img id="modalImg" class="modal-img">
+
+    <video id="modalVideo" class="modal-video" controls>
+      <source id="videoSource" src="" type="video/mp4">
+      Seu navegador não suporta vídeo.
+    </video>
+  </div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "ranking-campeoes.firebaseapp.com",
+  projectId: "ranking-campeoes",
+  storageBucket: "ranking-campeoes.firebasestorage.app",
+  messagingSenderId: "1049217546195",
+  appId: "1:1049217546195:web:6a10959a84949e3456e126"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const galeria = document.getElementById("galeria");
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modalImg");
+const modalVideo = document.getElementById("modalVideo");
+const videoSource = document.getElementById("videoSource");
+const fechar = document.querySelector(".fechar");
+
+onSnapshot(collection(db, "campeonatos"), (snapshot) => {
+
+  galeria.innerHTML = "";
+
+  snapshot.forEach(doc => {
+
+    const data = doc.data();
+
+    const card = document.createElement("div");
+    card.className = "card-galeria";
+
+    card.innerHTML = `
+      <img src="${data.imagem}" alt="Imagem do campeonato">
+
+      <div class="card-conteudo">
+        <h2>🏆 ${data.nomeCampeonato}</h2>
+
+        <div class="podio">
+          <p>🥇 ${data.primeiro}</p>
+          <p>🥈 ${data.segundo}</p>
+          <p>🥉 ${data.terceiro}</p>
+        </div>
+
+        <div class="stats">
+          <p>⚽ Melhor Ataque: ${data.melhorAtaque}</p>
+          <p>🛡️ Melhor Defesa: ${data.melhorDefesa}</p>
+          <p>❌ Pior Ataque: ${data.piorAtaque}</p>
+          <p>🚨 Pior Defesa: ${data.piorDefesa}</p>
+        </div>
+      </div>
+    `;
+
+    const imagem = card.querySelector("img");
+
+    imagem.addEventListener("click", () => {
+
+      modal.style.display = "block";
+
+      // Se tiver vídeo salvo
+      if (data.videoGolMaisBonito) {
+
+        modalImg.style.display = "none";
+        modalVideo.style.display = "block";
+
+        videoSource.src = data.videoGolMaisBonito;
+        modalVideo.load();
+
+      } else {
+
+        modalVideo.style.display = "none";
+        modalImg.style.display = "block";
+
+        modalImg.src = data.imagem;
+      }
+
+    });
+
+    galeria.appendChild(card);
+
+  });
+
+});
+
+// FECHAR MODAL
+fechar.onclick = () => {
+  modal.style.display = "none";
+  modalVideo.pause();
+};
+
+modal.onclick = (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+    modalVideo.pause();
+  }
+};
+
+</script>
+
+</body>
+</html>

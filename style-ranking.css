@@ -223,3 +223,20 @@ h2 {
     width: 95%;
   }
 }
+
+.btn-galeria {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 12px 25px;
+  background: #ffcc00;
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn-galeria:hover {
+  background: #ffaa00;
+  transform: scale(1.05);
+}

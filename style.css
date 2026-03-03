@@ -269,6 +269,15 @@ button:hover {
   transform: scale(1.1);
 }
 
+
+.sidebar li button {
+  width: auto !important;
+  min-width: 32px;
+  height: 32px;
+  padding: 0;
+  flex-shrink: 0;
+}
+
 /* Botão logout */
 .btn-logout {
   background: #ff3b3b;
@@ -409,12 +418,11 @@ button:hover {
   }
 
   /* Botões full largura */
-  button,
   .btn-ranking,
-  .btn-logout {
-    width: 100%;
-    text-align: center;
-  }
+.btn-logout {
+  width: 100%;
+  text-align: center;
+}
 
   /* Lista campeonatos */
   .sidebar ul {
@@ -427,12 +435,12 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  gap: 10px;
+  padding: 10px 12px;
   margin-bottom: 8px;
   background: rgba(255,255,255,0.03);
   border-radius: 10px;
-  font-size: 14px;
-  transition: 0.2s;
+  font-size: 15px;
 }
 
 .sidebar li:hover {
@@ -468,4 +476,24 @@ button:hover {
 
 }
 
+.camp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
 
+.seta {
+  font-size: 18px;
+  transition: 0.2s;
+}
+
+.camp-detalhes {
+  margin-top: 15px;
+  animation: expandir 0.2s ease;
+}
+
+@keyframes expandir {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
