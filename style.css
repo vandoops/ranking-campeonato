@@ -348,6 +348,7 @@ button:hover {
   inset: 0;
   background: #0f0f1a;
   display: flex;
+  flex-direction: column; /* 👈 importante */
   justify-content: center;
   align-items: center;
   z-index: 9999;
@@ -372,8 +373,14 @@ button:hover {
 }
 
 /* ========================= */
-/* RESPONSIVO */
+/* login logo */
 /* ========================= */
+
+.login-logo {
+  width: 150px; /* ajusta aqui */
+  height: auto;
+  margin-bottom: 20px;
+}
 
 /* ========================= */
 /* RESPONSIVO MOBILE REAL */
