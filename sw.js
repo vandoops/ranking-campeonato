@@ -33,4 +33,13 @@ self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(resp => resp || fetch(event.request))
   );
+
+  self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(resp => {
+      // Se não achar no cache, tenta buscar
+      return resp || fetch(event.request).catch(() => caches.match("/ranking.html"));
+    })
+  );
+});
 });
