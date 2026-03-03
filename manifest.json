@@ -1,7 +1,7 @@
 {
   "name": "Galeria Bruxaria",
   "short_name": "Bruxaria",
-  "start_url": "/ranking.html",
+  "start_url": "./ranking.html",
   "display": "standalone",
   "background_color": "#111111",
   "theme_color": "#111111",
