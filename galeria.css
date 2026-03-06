@@ -1,7 +1,7 @@
 body {
   position: relative; /* necessário para o ::before */
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI';
   color: white;
   min-height: 100vh;
 }
@@ -89,8 +89,7 @@ h1 {
 .modal {
   display: none;
   position: fixed;
-  z-index: 999;
-  padding-top: 60px;
+  z-index: 20000; /* maior que o menu */
   left: 0;
   top: 0;
   width: 100%;
@@ -104,14 +103,17 @@ h1 {
   max-width: 90%;
   max-height: 80vh;
   border-radius: 10px;
+  margin-top: 50px;
 }
 
 .fechar {
   position: absolute;
   top: 20px;
   right: 35px;
-  color: white;
+  color: rgb(255, 255, 255);
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
+  z-index: 20001; /* acima de tudo */
+  margin-top: 30px;
 }

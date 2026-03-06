@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Players</title>
+
+<link rel="stylesheet" href="players.css">
+<link rel="stylesheet" href="menu.css">
+
+
+
+</head>
+<body>
+<script>
+
+if(localStorage.getItem("adminLogado") !== "true"){
+window.location.href = "login.html";
+}
+
+</script>
+    
+<!-- MENU -->
+<nav class="menu-topo">
+  <div class="menu-esquerda">
+    <div class="menu-logo">⚡ Bruxaria</div>
+    <div class="menu-links">
+      
+      <a href="index.html">🏆 Ranking</a>
+      <a href="galeria.html">📸 Galeria</a>
+      <a href="admin.html">👑 Admin</a>
+      <a href="players.html">👥 Players</a>
+
+    </div>
+  </div>
+<div class="menu-hamburger">&#9776;</div> <!-- ícone hamburger -->
+  <button id="btnLogoutMenu" class="btn-logout-menu">
+    Sair
+  </button>
+  
+</nav>
+
+<div class="container">
+
+<h1>Cadastro de Players</h1>
+
+<div class="card">
+
+<input type="text" id="novoPlayer" placeholder="Nome do player">
+
+<button id="addPlayer">
+Adicionar Player
+</button>
+
+</div>
+
+<h2>Players cadastrados</h2>
+
+<ul id="listaPlayers"></ul>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+onSnapshot,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+/* ================= FIREBASE ================= */
+
+const firebaseConfig = {
+apiKey: "SUA_API_KEY",
+authDomain: "ranking-campeoes.firebaseapp.com",
+projectId: "ranking-campeoes",
+storageBucket: "ranking-campeoes.firebasestorage.app",
+messagingSenderId: "1049217546195",
+appId: "1:1049217546195:web:6a10959a84949e3456e126"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* ================= ELEMENTOS ================= */
+
+const listaPlayers = document.getElementById("listaPlayers");
+
+/* ================= LOGOUT ================= */
+
+document.getElementById("btnLogoutMenu").onclick = () => {
+localStorage.removeItem("adminLogado");
+location.reload();
+};
+
+/* ================= ADICIONAR PLAYER ================= */
+
+document.getElementById("addPlayer").onclick = async () => {
+
+const nome = document.getElementById("novoPlayer").value.trim();
+
+if (!nome) return;
+
+await addDoc(collection(db,"players"),{
+nome
+});
+
+document.getElementById("novoPlayer").value = "";
+
+};
+
+/* ================= LISTAR PLAYERS ================= */
+
+onSnapshot(collection(db,"players"),(snap)=>{
+
+listaPlayers.innerHTML="";
+
+snap.forEach(docSnap=>{
+
+const data = docSnap.data();
+
+const li = document.createElement("li");
+
+li.innerHTML = `
+${data.nome}
+<button class="excluir">❌</button>
+`;
+
+li.querySelector("button").onclick = async ()=>{
+
+if(confirm("Excluir player?")){
+
+await deleteDoc(doc(db,"players",docSnap.id));
+
+}
+
+};
+
+listaPlayers.appendChild(li);
+
+});
+
+});
+
+</script>
+
+<script>
+  const hamburger = document.querySelector('.menu-hamburger');
+  const menuLinks = document.querySelector('.menu-links');
+
+  hamburger.addEventListener('click', () => {
+    menuLinks.classList.toggle('active');
+  });
+</script>
+
+<script>
+
+const btnLogout = document.getElementById("btnLogoutMenu");
+
+if(btnLogout){
+btnLogout.onclick = () => {
+
+localStorage.removeItem("adminLogado");
+
+window.location.href = "login.html";
+
+};
+}
+
+</script>
+
+</body>
+</html>

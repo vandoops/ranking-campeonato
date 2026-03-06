@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI';
+  background: #3030ff;
+  color: rgb(255, 255, 255);
+  font-size: 14px; /* Força a mesma fonte que as outras telas */
+  text-align: center;
+}
+
+
+.container{
+  max-width: 800px;
+  margin: 90px auto 0 auto; /* garante que o conteúdo comece abaixo do menu */
+  padding: 30px 20px; /* padding interno normal */
+}
+
+.card{
+background:#2d2e1c;
+padding:30px;
+border-radius:15px;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+margin-bottom:10px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:rgb(13, 255, 0);
+cursor:pointer;
+}
+
+ul{
+list-style:none;
+padding:0;
+}
+
+li{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px;
+background:rgba(30,30,50,0.9);
+margin-bottom:10px;
+border-radius:12px;
+color:#ffffff;
+transition:0.3s;
+}
+
+li:hover{
+transform:scale(1.03);
+background:linear-gradient(#ffff00);
+color:rgb(0, 0, 0);
+}
+
+.excluir{
+background:red;
+color:white;
+border:none;
+padding:5px 10px;
+border-radius:6px;
+}

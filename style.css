@@ -20,11 +20,11 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI';
   color: white;
 
   background: 
-    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    linear-gradient(rgba(0, 119, 255, 0.6), rgba(0,0,0,0.6)),
     url("fundo.png");
 
   background-size: cover;
@@ -84,7 +84,7 @@ h2 {
   display: flex;
   gap: 30px;
   width: 100%;
-  max-width: 1400px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 40px 30px;
 }
@@ -116,7 +116,7 @@ h2 {
 
 .sidebar li {
   padding: 10px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255, 2, 2, 0.05);
   font-size: 14px;
   display: flex;
   justify-content: space-between;
@@ -203,12 +203,12 @@ select:focus {
 }
 
 /* ========================= */
-/* SELECT DARK MODE */
+/* SELECT de players campeões */
 /* ========================= */
 
 select {
-  background: rgba(30,30,40,0.95);
-  color: white;
+  background: #ffee00;
+  color: rgb(0, 0, 0);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 12px;
   padding: 12px 14px;
@@ -226,26 +226,26 @@ select option {
 /* BOTÕES */
 /* ========================= */
 
+
+/* ========================= */
+/* Botão salvar campeonato e excluir campeonato aqui  nesse button */
+/* ========================= */
 button {
   padding: 10px 18px;
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  background: linear-gradient(135deg, #ffd700, #ffae00);
+  background: linear-gradient(135deg, #0177ff);
   font-weight: bold;
   transition: 0.3s;
 }
 
 button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(255,215,0,0.4);
+  box-shadow: 0 8px 20px rgba(255, 255, 0, 0.634);
 }
 
-/* Botão ranking */
-.btn-ranking {
-  background: linear-gradient(135deg, #00f7ff, #ff0077);
-  color: white;
-}
+
 
 /* Botão excluir */
 .btn-excluir {
@@ -504,3 +504,5 @@ button:hover {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+

@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Ranking</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="menu.css">
 <link rel="stylesheet" href="style-ranking.css">
 
 <!-- manifest -->
@@ -13,27 +16,49 @@
 
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
+
+
 </head>
 
 <body>
-  <div class="faixas-bg"></div>
 
-<h1>🏆MAIORES CAMPEÕES🏆</h1>
 
-<div id="podio"></div>
+  <!-- MENU SUPERIOR -->
+<nav class="menu-topo">
+  <div class="menu-esquerda">
+    <div class="menu-logo">⚡ Bruxaria</div>
+    <div class="menu-links">
+      <a href="index.html">🏆 Ranking</a>
+      <a href="galeria.html">📸 Galeria</a>
+      
+    </div>
+  </div>
+<div class="menu-hamburger">&#9776;</div> <!-- ícone hamburger -->
+</nav>
 
-<a href="galeria.html" class="btn-galeria">
-  📸 Ver Galeria de Campeões
-</a>
+ <div class="container">
+<h1>🏆 Ranking Bruxaria</h1>
 
-<h2>Titulos de cada Players</h2>
-<div id="galeria"></div>
+<div class="ranking-container">
+
+<div class="ranking-box">
+<h2>🥇 Maiores Medalhistas</h2>
+<div id="rankingMedalhas"></div>
+</div>
+
+<div class="ranking-box">
+<h2>⭐ Maiores Pontuadores</h2>
+<div id="rankingPontos"></div>
+</div>
+
+</div>
 
 <!-- MODAL -->
 <div id="modal" class="modal">
 <div class="modal-content">
 <span id="fechar">&times;</span>
 <div id="detalhes"></div>
+</div>
 </div>
 </div>
 
@@ -61,13 +86,10 @@ const detalhes = document.getElementById("detalhes");
 
 document.getElementById("fechar").onclick = () => modal.style.display = "none";
 
-/* ================= CALCULAR RANKING ================= */
-
 onSnapshot(collection(db, "campeonatos"), (snap) => {
 
 const stats = {};
 
-/* 🔥 Monta estatísticas */
 snap.forEach(docSnap => {
 
 const data = docSnap.data();
@@ -76,99 +98,108 @@ const data = docSnap.data();
 
 const nome = data[pos];
 
-if (!nome) return;
+if(!nome) return;
 
-if (!stats[nome]) {
-stats[nome] = { primeiro:0, segundo:0, terceiro:0 };
+if(!stats[nome]){
+stats[nome] = {
+primeiro:0,
+segundo:0,
+terceiro:0,
+pontos:0
+};
 }
 
 stats[nome][pos]++;
 
-});
+/* pontos */
+if(pos === "primeiro") stats[nome].pontos += 3;
+if(pos === "segundo") stats[nome].pontos += 1;
 
 });
 
-/* ================= ORDENAR COM DESEMPATE ================= */
+});
 
-const ordenado = Object.entries(stats)
-.sort((a, b) => {
+
+/* ================= MEDALHAS ================= */
+
+const rankingMedalhas = Object.entries(stats).sort((a,b)=>{
 
 const totalA = a[1].primeiro + a[1].segundo + a[1].terceiro;
 const totalB = b[1].primeiro + b[1].segundo + b[1].terceiro;
 
-/* 🔥 1º critério: total */
-if (totalB !== totalA) {
-return totalB - totalA;
-}
+if(totalB !== totalA) return totalB - totalA;
+if(b[1].primeiro !== a[1].primeiro) return b[1].primeiro - a[1].primeiro;
+if(b[1].segundo !== a[1].segundo) return b[1].segundo - a[1].segundo;
 
-/* 🔥 2º critério: mais ouro */
-if (b[1].primeiro !== a[1].primeiro) {
-return b[1].primeiro - a[1].primeiro;
-}
-
-/* 🔥 3º critério: mais prata */
-if (b[1].segundo !== a[1].segundo) {
-return b[1].segundo - a[1].segundo;
-}
-
-/* 🔥 4º critério: mais bronze */
 return b[1].terceiro - a[1].terceiro;
 
 });
 
-/* ================= PODIO ================= */
 
-podio.innerHTML = "";
+/* ================= PONTOS ================= */
 
-ordenado.slice(0,3).forEach((j,i)=>{
 
-const div = document.createElement("div");
-div.classList.add("podio-item");
 
-if(i === 0) div.classList.add("podio-1");
-if(i === 1) div.classList.add("podio-2");
-if(i === 2) div.classList.add("podio-3");
 
-div.innerHTML = `
-<h3>${i+1}º</h3>
-<p>${j[0]}</p>
-<p>🥇 ${j[1].primeiro}</p>
-<p>🥈 ${j[1].segundo}</p>
-<p>🥉 ${j[1].terceiro}</p>
+/* ================= MOSTRAR ================= */
+
+const divMedalhas = document.getElementById("rankingMedalhas");
+const divPontos = document.getElementById("rankingPontos");
+
+divMedalhas.innerHTML = "";
+divPontos.innerHTML = "";
+
+rankingMedalhas.forEach((p,i)=>{
+
+divMedalhas.innerHTML += `
+<div class="linha-ranking">
+<span>${i+1}º ${p[0]}</span>
+<span>🥇 ${p[1].primeiro} 🥈 ${p[1].segundo} 🥉 ${p[1].terceiro}</span>
+</div>
 `;
-
-podio.appendChild(div);
 
 });
 
-/* ================= GALERIA ================= */
 
-galeria.innerHTML = "";
 
-ordenado.forEach(player => {
 
-const nome = player[0];
-const dados = player[1];
+});
 
-const box = document.createElement("div");
-box.className = "player-box";
 
-box.innerHTML = `<h3>${nome}</h3>`;
+onSnapshot(collection(db, "pontuacoes"), (snap) => {
 
-box.onclick = () => {
+const divPontos = document.getElementById("rankingPontos");
+divPontos.innerHTML = "";
 
-detalhes.innerHTML = `
-<h2>${nome}</h2>
-<p>🥇 Primeiro: ${dados.primeiro}</p>
-<p>🥈 Segundo: ${dados.segundo}</p>
-<p>🥉 Terceiro: ${dados.terceiro}</p>
+const ranking = {};
+
+snap.forEach(doc => {
+
+const data = doc.data();
+
+const pontos =
+(data.vitorias * 3) +
+(data.empates * 1);
+
+if(!ranking[data.player]){
+ranking[data.player] = 0;
+}
+
+ranking[data.player] += pontos;
+
+});
+
+const lista = Object.entries(ranking)
+.sort((a,b)=> b[1] - a[1]);
+
+lista.forEach((p,i)=>{
+
+divPontos.innerHTML += `
+<div class="linha-ranking">
+<span>${i+1}º ${p[0]}</span>
+<span>${p[1]} pts</span>
+</div>
 `;
-
-modal.style.display = "flex";
-
-};
-
-galeria.appendChild(box);
 
 });
 
@@ -182,6 +213,15 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/sw.js")
     .then(() => console.log("SW registrado"));
 }
+</script>
+
+<script>
+  const hamburger = document.querySelector('.menu-hamburger');
+  const menuLinks = document.querySelector('.menu-links');
+
+  hamburger.addEventListener('click', () => {
+    menuLinks.classList.toggle('active');
+  });
 </script>
 
 </body>

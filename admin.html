@@ -6,6 +6,8 @@
 <title>Admin</title>
 <link rel="stylesheet" href="style.css">
 
+<link rel="stylesheet" href="menu.css">
+
 <!-- Uploadcare -->
 <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 <script>
@@ -22,46 +24,46 @@ UPLOADCARE_PUBLIC_KEY = "33109c1aa40e97fd88cb";
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginTela" class="login-overlay">
+  
 
-  <img src="logopng.png" alt="Logo do Clã" class="login-logo">
+  <script>
+    
 
-  <div class="login-box">
-    <h2>🔐 Acesso Bruxaria</h2>
-    <input type="password" id="senhaInput" placeholder="Digite a senha ai Bruxo">
-    <button id="btnLogin">Entra ai Bruxo</button>
-    <p id="erroLogin" class="erro-login"></p>
+if(localStorage.getItem("adminLogado") !== "true"){
+window.location.href = "login.html";
+}
+
+</script>
+
+  <!-- MENU SUPERIOR -->
+<nav class="menu-topo">
+  <div class="menu-esquerda">
+    <div class="menu-logo">⚡ Bruxaria</div>
+    <div class="menu-links">
+      
+      <a href="index.html">🏆 Ranking</a>
+      <a href="galeria.html">📸 Galeria</a>
+      <a href="admin.html">👑 Admin</a>
+      <a href="players.html">👥 Players</a>
+
+    </div>
   </div>
+<div class="menu-hamburger">&#9776;</div> <!-- ícone hamburger -->
+  <button id="btnLogoutMenu" class="btn-logout-menu">
+    Sair
+  </button>
+  
+</nav>
 
-</div>
+
 
 <div class="container">
 
-<aside class="sidebar">
-<h2>👥 Players / Bruxos</h2>
-<input type="text" id="novoPlayer" placeholder="Nome do player / bruxo">
-<button id="addPlayer">Adicionar Bruxos</button>
-<ul id="listaPlayers"></ul>
-</aside>
-
 <main class="main">
-
-<h1>Administrativo Bruxaria</h1>
-
-<div class="topo-admin">
-  <a href="index.html" target="_blank" class="btn-ranking">
-    🏆 Ver Ranking
-  </a>
-
-  <button id="btnLogout" class="btn-logout">
-    Sair
-  </button>
-</div>
 
 <div class="card-admin">
 
-<h2>🏆 Criar Campeonato</h2>
+<h2>Criar Campeonato</h2>
 
 <label>Nome do Campeonato</label>
 <input type="text" id="nomeCampeonato">
@@ -109,6 +111,24 @@ id="uploadImagem"
 
 <button id="criarCampeonato">Salvar Campeonato</button>
 
+<hr>
+
+<h3>⚽ Pontuação Players</h3>
+
+<label>Player</label>
+<select id="playerPontuacao"></select>
+
+<label>Vitórias</label>
+<input type="number" id="vitorias" min="0">
+
+<label>Empates</label>
+<input type="number" id="empates" min="0">
+
+<label>Derrotas</label>
+<input type="number" id="derrotas" min="0">
+
+<button id="salvarPontuacao">Salvar Pontuação</button>
+
 </div>
 
 <h3>Campeonatos bruxaria</h3>
@@ -132,32 +152,6 @@ orderBy,
 serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* ================= LOGIN ================= */
-
-const SENHA_CORRETA = "lecoloco";
-
-const loginTela = document.getElementById("loginTela");
-const btnLogin = document.getElementById("btnLogin");
-const senhaInput = document.getElementById("senhaInput");
-const erroLogin = document.getElementById("erroLogin");
-
-if (localStorage.getItem("adminLogado") === "true") {
-  loginTela.style.display = "none";
-}
-
-btnLogin.onclick = () => {
-  if (senhaInput.value === SENHA_CORRETA) {
-    localStorage.setItem("adminLogado", "true");
-    loginTela.style.display = "none";
-  } else {
-    erroLogin.textContent = "Senha incorreta!";
-  }
-};
-
-document.getElementById("btnLogout").onclick = () => {
-  localStorage.removeItem("adminLogado");
-  location.reload();
-};
 
 /* ================= FIREBASE ================= */
 
@@ -175,7 +169,6 @@ const db = getFirestore(app);
 
 /* ================= ELEMENTOS ================= */
 
-const listaPlayers = document.getElementById("listaPlayers");
 const primeiro = document.getElementById("primeiroLugar");
 const segundo = document.getElementById("segundoLugar");
 const terceiro = document.getElementById("terceiroLugar");
@@ -187,22 +180,10 @@ const piorDefesa = document.getElementById("piorDefesa");
 
 const uploadWidget = uploadcare.Widget('#uploadImagem');
 
-
-
-/* ================= PLAYERS ================= */
-
-document.getElementById("addPlayer").onclick = async () => {
-
-const nome = document.getElementById("novoPlayer").value.trim();
-if (!nome) return;
-
-await addDoc(collection(db, "players"), { nome });
-document.getElementById("novoPlayer").value = "";
-};
+/* ================= CARREGAR PLAYERS NOS SELECTS ================= */
 
 onSnapshot(collection(db, "players"), (snap) => {
 
-listaPlayers.innerHTML = "";
 primeiro.innerHTML = "";
 segundo.innerHTML = "";
 terceiro.innerHTML = "";
@@ -215,20 +196,6 @@ snap.forEach(docSnap => {
 
 const nome = docSnap.data().nome;
 
-const li = document.createElement("li");
-li.innerHTML = `
-${nome}
-<button>❌</button>
-`;
-
-li.querySelector("button").onclick = async () => {
-if (confirm("Excluir player?")) {
-await deleteDoc(doc(db, "players", docSnap.id));
-}
-};
-
-listaPlayers.appendChild(li);
-
 primeiro.innerHTML += `<option value="${nome}">${nome}</option>`;
 segundo.innerHTML += `<option value="${nome}">${nome}</option>`;
 terceiro.innerHTML += `<option value="${nome}">${nome}</option>`;
@@ -236,6 +203,22 @@ melhorAtaque.innerHTML += `<option value="${nome}">${nome}</option>`;
 melhorDefesa.innerHTML += `<option value="${nome}">${nome}</option>`;
 piorAtaque.innerHTML += `<option value="${nome}">${nome}</option>`;
 piorDefesa.innerHTML += `<option value="${nome}">${nome}</option>`;
+
+});
+
+});
+
+const playerPontuacao = document.getElementById("playerPontuacao");
+
+onSnapshot(collection(db, "players"), (snap) => {
+
+playerPontuacao.innerHTML = "";
+
+snap.forEach(docSnap => {
+
+const nome = docSnap.data().nome;
+
+playerPontuacao.innerHTML += `<option value="${nome}">${nome}</option>`;
 
 });
 
@@ -265,15 +248,14 @@ data: serverTimestamp()
 });
 
 alert("Campeonato salvo!");
+
 };
 
 /* ================= LISTAR CAMPEONATOS ================= */
 
-/* ================= LISTAR CAMPEONATOS ================= */
-
 const campeonatosRef = query(
-  collection(db, "campeonatos"),
-  orderBy("data", "asc") // antigo → novo
+collection(db, "campeonatos"),
+orderBy("data", "asc")
 );
 
 onSnapshot(campeonatosRef, (snap) => {
@@ -290,21 +272,23 @@ bloco.className = "card-admin";
 
 bloco.innerHTML = `
 <div class="camp-header">
-  <h4>🏆 ${data.nomeCampeonato}</h4>
-  <span class="seta">▼</span>
+<h4>🏆 ${data.nomeCampeonato}</h4>
+<span class="seta">▼</span>
 </div>
 
 <div class="camp-detalhes">
-  <p>🥇 ${data.primeiro}</p>
-  <p>🥈 ${data.segundo}</p>
-  <p>🥉 ${data.terceiro}</p>
-  <hr>
-  <p>⚽ Melhor Ataque: ${data.melhorAtaque}</p>
-  <p>🛡️ Melhor Defesa: ${data.melhorDefesa}</p>
-  <p>❌ Pior Ataque: ${data.piorAtaque}</p>
-  <p>🚨 Pior Defesa: ${data.piorDefesa}</p>
+<p>🥇 ${data.primeiro}</p>
+<p>🥈 ${data.segundo}</p>
+<p>🥉 ${data.terceiro}</p>
 
-  <button class="btnExcluir">Excluir</button>
+<hr>
+
+<p>⚽ Melhor Ataque: ${data.melhorAtaque}</p>
+<p>🛡️ Melhor Defesa: ${data.melhorDefesa}</p>
+<p>❌ Pior Ataque: ${data.piorAtaque}</p>
+<p>🚨 Pior Defesa: ${data.piorDefesa}</p>
+
+<button class="btnExcluir">Excluir</button>
 </div>
 `;
 
@@ -316,39 +300,78 @@ const btnExcluir = bloco.querySelector(".btnExcluir");
 detalhes.style.display = "none";
 
 header.onclick = () => {
-  const aberto = detalhes.style.display === "block";
-  detalhes.style.display = aberto ? "none" : "block";
-  seta.textContent = aberto ? "▼" : "▲";
+
+const aberto = detalhes.style.display === "block";
+detalhes.style.display = aberto ? "none" : "block";
+seta.textContent = aberto ? "▼" : "▲";
+
 };
 
 btnExcluir.onclick = async () => {
-  if (confirm("Excluir campeonato?")) {
-    await deleteDoc(doc(db, "campeonatos", docSnap.id));
-  }
+
+if (confirm("Excluir campeonato?")) {
+
+await deleteDoc(doc(db, "campeonatos", docSnap.id));
+
+}
+
 };
 
 container.appendChild(bloco);
-});
 
 });
 
+});
 
+
+document.getElementById("salvarPontuacao").onclick = async () => {
+
+const player = document.getElementById("playerPontuacao").value;
+const vitorias = Number(document.getElementById("vitorias").value);
+const empates = Number(document.getElementById("empates").value);
+const derrotas = Number(document.getElementById("derrotas").value);
+
+await addDoc(collection(db,"pontuacoes"),{
+
+player: player,
+vitorias: vitorias,
+empates: empates,
+derrotas: derrotas,
+data: serverTimestamp()
+
+});
+
+alert("Pontuação salva!");
+
+};
 
 </script>
 
 <script>
-UPLOADCARE_LOCALE = "pt";
-UPLOADCARE_TRANSLATIONS = {
-  buttons: {
-    choose: {
-      files: {
-        one: "Selecionar Imagem",
-        other: "Selecionar Imagens"
-      }
-    }
-  }
-};
+  const hamburger = document.querySelector('.menu-hamburger');
+  const menuLinks = document.querySelector('.menu-links');
+
+  hamburger.addEventListener('click', () => {
+    menuLinks.classList.toggle('active');
+  });
 </script>
+
+<script>
+const btnLogout = document.getElementById("btnLogoutMenu");
+
+if(btnLogout){
+  btnLogout.onclick = () => {
+
+    localStorage.removeItem("adminLogado");
+
+    window.location.href = "login.html";
+
+  };
+}
+</script>
+
+
+
 
 </body>
 </html>

@@ -6,8 +6,26 @@
 <title>Galeria de Campeões</title>
 
 <link rel="stylesheet" href="galeria.css">
+<link rel="stylesheet" href="menu.css">
+
 </head>
 <body>
+
+  <!-- MENU SUPERIOR -->
+<nav class="menu-topo">
+  <div class="menu-esquerda">
+    <div class="menu-logo">⚡ Bruxaria</div>
+    <div class="menu-links">
+      <a href="index.html">🏆 Ranking</a>
+      <a href="galeria.html">📸 Galeria</a>
+      
+    </div>
+  </div>
+  <div class="menu-hamburger">&#9776;</div> <!-- ícone hamburger -->
+
+</nav>
+
+ <div class="container-principal">
 
 <h1>Galeria de Campeões</h1>
 
@@ -139,6 +157,17 @@ modal.onclick = (e) => {
 };
 
 </script>
+
+<script>
+  const hamburger = document.querySelector('.menu-hamburger');
+  const menuLinks = document.querySelector('.menu-links');
+
+  hamburger.addEventListener('click', () => {
+    menuLinks.classList.toggle('active');
+  });
+</script>
+
+</div>
 
 </body>
 </html>
