@@ -1,10 +1,16 @@
 body {
   margin: 0;
   font-family: 'Segoe UI';
-  background: #3030ff;
-  color: rgb(255, 255, 255);
+  background: #3041ff;
+  color: rgb(0, 0, 0);
   font-size: 14px; /* Força a mesma fonte que as outras telas */
   text-align: center;
+
+   background-image: url("fundoplayer.png");
+  background-size: cover;       /* cobre toda tela */
+  background-position: center;  /* centraliza */
+  background-repeat: no-repeat; /* não repete */
+  background-attachment: fixed; /* efeito bonito */
 }
 
 
