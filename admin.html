@@ -8,19 +8,11 @@
 
 <link rel="stylesheet" href="menu.css">
 
-<!-- Uploadcare -->
-<script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
-<script>
-UPLOADCARE_PUBLIC_KEY = "33109c1aa40e97fd88cb"; 
-</script>
 
-<style>
-.uploadcare--widget__button_type_open {
-  background: #28a745 !important;
-  border: none !important;
-}
-</style>
 
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -70,42 +62,49 @@ window.location.href = "login.html";
 
 <h3>Pódio</h3>
 
-<label>🥇 Nome do Campeão</label>
+<div class="linha-podio">
+<label>🥇 Campeão</label>
 <select id="primeiroLugar"></select>
+</div>
 
-<label>🥈 Nome do Vice</label>
+<div class="linha-podio">
+<label>🥈 Vice</label>
 <select id="segundoLugar"></select>
+</div>
 
-<label>🥉 Nome do Terceiro</label>
+<div class="linha-podio">
+<label>🥉 Terceiro</label>
 <select id="terceiroLugar"></select>
+</div>
 
 <hr>
 
 <h3>📊 Estatísticas</h3>
 
+<div class="linha-estat">
 <label>⚽ Melhor Ataque</label>
 <select id="melhorAtaque"></select>
+</div>
 
-<label>🛡️ Melhor Defesa</label>
+<div class="linha-estat">
+<label>🛡 Melhor Defesa</label>
 <select id="melhorDefesa"></select>
+</div>
 
+<div class="linha-estat">
 <label>❌ Pior Ataque</label>
 <select id="piorAtaque"></select>
+</div>
 
-<label>🚨 Pior Defesa</label>
+<div class="linha-estat">
+<label>🥅 Pior Defesa</label>
 <select id="piorDefesa"></select>
-
+</div>
 <hr>
 
 <h3>📸 Imagem do Campeão</h3>
 
-<input 
-type="hidden" 
-role="uploadcare-uploader"
-data-clearable
-data-images-only
-id="uploadImagem"
-/>
+<input type="file" id="imagemCampeonato">
 
 <br><br>
 
@@ -129,8 +128,32 @@ id="uploadImagem"
 
 <button id="salvarPontuacao">Salvar Pontuação</button>
 
+<div class="card-admin">
+
+<div class="camp-header" id="headerPontuacoes">
+<h4>📊 Pontuações Salvas</h4>
+<span class="seta">▼</span>
 </div>
 
+<div class="camp-detalhes" id="detalhesPontuacoes">
+
+<table class="tabela-pontos">
+<thead>
+<tr>
+<th>Player</th>
+<th>VIT</th>
+<th>E</th>
+<th>DER</th>
+<th>PTS</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody id="listaPontuacoes"></tbody>
+</table>
+
+</div>
+</div>
 <h3>Campeonatos bruxaria</h3>
 <div id="listaTitulos"></div>
 
@@ -149,7 +172,9 @@ deleteDoc,
 doc,
 query,
 orderBy,
-serverTimestamp
+serverTimestamp,
+getDocs,
+updateDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
@@ -178,7 +203,7 @@ const melhorDefesa = document.getElementById("melhorDefesa");
 const piorAtaque = document.getElementById("piorAtaque");
 const piorDefesa = document.getElementById("piorDefesa");
 
-const uploadWidget = uploadcare.Widget('#uploadImagem');
+
 
 /* ================= CARREGAR PLAYERS NOS SELECTS ================= */
 
@@ -231,8 +256,22 @@ document.getElementById("criarCampeonato").onclick = async () => {
 const nomeCamp = document.getElementById("nomeCampeonato").value;
 if (!nomeCamp) return alert("Digite o nome!");
 
-const fileInfo = await uploadWidget.value();
-if (!fileInfo) return alert("Selecione uma imagem!");
+const file = document.getElementById("imagemCampeonato").files[0];
+
+if(!file) return alert("Selecione uma imagem!");
+
+const formData = new FormData();
+formData.append("file", file);
+formData.append("upload_preset", "campeonato_upload");
+
+const res = await fetch("https://api.cloudinary.com/v1_1/dfeyuaheu/image/upload",{
+method:"POST",
+body:formData
+});
+
+const dataImg = await res.json();
+
+const imageUrl = dataImg.secure_url;
 
 await addDoc(collection(db, "campeonatos"), {
 nomeCampeonato: nomeCamp,
@@ -243,9 +282,11 @@ melhorAtaque: melhorAtaque.value,
 melhorDefesa: melhorDefesa.value,
 piorAtaque: piorAtaque.value,
 piorDefesa: piorDefesa.value,
-imagem: fileInfo.cdnUrl,
+imagem: imageUrl,
 data: serverTimestamp()
 });
+
+alert("Campeonato salvo!");
 
 alert("Campeonato salvo!");
 
@@ -260,12 +301,31 @@ orderBy("data", "asc")
 
 onSnapshot(campeonatosRef, (snap) => {
 
+  
+
 const container = document.getElementById("listaTitulos");
 container.innerHTML = "";
+const ranking = {};
 
 snap.forEach(docSnap => {
 
 const data = docSnap.data();
+
+if(!ranking[data.primeiro]){
+ranking[data.primeiro] = {ouro:0,prata:0,bronze:0};
+}
+
+if(!ranking[data.segundo]){
+ranking[data.segundo] = {ouro:0,prata:0,bronze:0};
+}
+
+if(!ranking[data.terceiro]){
+ranking[data.terceiro] = {ouro:0,prata:0,bronze:0};
+}
+
+ranking[data.primeiro].ouro++;
+ranking[data.segundo].prata++;
+ranking[data.terceiro].bronze++;
 
 const bloco = document.createElement("div");
 bloco.className = "card-admin";
@@ -319,6 +379,30 @@ await deleteDoc(doc(db, "campeonatos", docSnap.id));
 
 container.appendChild(bloco);
 
+const rankingFinal = [];
+
+for(const player in ranking){
+
+const ouro = ranking[player].ouro;
+const prata = ranking[player].prata;
+const bronze = ranking[player].bronze;
+
+const pontos = (ouro * 5) + (prata * 3) + (bronze * 1);
+
+rankingFinal.push({
+player,
+ouro,
+prata,
+bronze,
+pontos
+});
+
+}
+
+rankingFinal.sort((a,b)=> b.pontos - a.pontos);
+
+console.log(rankingFinal);
+
 });
 
 });
@@ -331,6 +415,32 @@ const vitorias = Number(document.getElementById("vitorias").value);
 const empates = Number(document.getElementById("empates").value);
 const derrotas = Number(document.getElementById("derrotas").value);
 
+const snap = await getDocs(collection(db,"pontuacoes"));
+
+let encontrado = null;
+
+snap.forEach(docSnap => {
+const data = docSnap.data();
+
+if(data.player === player){
+encontrado = docSnap;
+}
+});
+
+if(encontrado){
+
+const data = encontrado.data();
+
+await updateDoc(doc(db,"pontuacoes",encontrado.id),{
+
+vitorias: data.vitorias + vitorias,
+empates: data.empates + empates,
+derrotas: data.derrotas + derrotas
+
+});
+
+}else{
+
 await addDoc(collection(db,"pontuacoes"),{
 
 player: player,
@@ -341,7 +451,69 @@ data: serverTimestamp()
 
 });
 
-alert("Pontuação salva!");
+}
+
+alert("Pontuação atualizada!");
+
+};
+
+/* ================= LISTAR PONTUAÇÕES ================= */
+
+
+
+onSnapshot(collection(db,"pontuacoes"),(snap)=>{
+
+const lista = document.getElementById("listaPontuacoes");
+
+lista.innerHTML = "";
+
+snap.forEach(docSnap=>{
+
+const data = docSnap.data();
+
+const pontos = (data.vitorias * 3) + (data.empates * 1);
+
+const linha = document.createElement("tr");
+
+linha.innerHTML = `
+<td>${data.player}</td>
+<td>${data.vitorias}</td>
+<td>${data.empates}</td>
+<td>${data.derrotas}</td>
+<td><b>${pontos}</b></td>
+<td><button class="btnExcluirPontuacao">🗑</button></td>
+`;
+
+const btnExcluir = linha.querySelector(".btnExcluirPontuacao");
+
+btnExcluir.onclick = async () => {
+
+if(confirm("Excluir pontuação?")){
+await deleteDoc(doc(db,"pontuacoes",docSnap.id));
+}
+
+};
+
+lista.appendChild(linha);
+
+});
+
+
+
+});
+
+const headerPontuacoes = document.getElementById("headerPontuacoes");
+const detalhesPontuacoes = document.getElementById("detalhesPontuacoes");
+const setaPontuacoes = headerPontuacoes.querySelector(".seta");
+
+detalhesPontuacoes.style.display = "none";
+
+headerPontuacoes.onclick = () => {
+
+const aberto = detalhesPontuacoes.style.display === "block";
+
+detalhesPontuacoes.style.display = aberto ? "none" : "block";
+setaPontuacoes.textContent = aberto ? "▼" : "▲";
 
 };
 
@@ -370,8 +542,25 @@ if(btnLogout){
 }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<script>
 
+$(document).ready(function(){
+
+$('#primeiroLugar').select2({placeholder:"Buscar player..."});
+$('#segundoLugar').select2({placeholder:"Buscar player..."});
+$('#terceiroLugar').select2({placeholder:"Buscar player..."});
+
+$('#melhorAtaque').select2();
+$('#melhorDefesa').select2();
+$('#piorAtaque').select2();
+$('#piorDefesa').select2();
+$('#playerPontuacao').select2();
+
+});
+
+</script>
 
 </body>
 </html>
