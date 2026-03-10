@@ -235,7 +235,7 @@ button {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  background: linear-gradient(135deg, #0177ff);
+  background: linear-gradient(135deg, #d501ff);
   font-weight: bold;
   transition: 0.3s;
   margin-bottom: 10px;
@@ -644,4 +644,9 @@ min-width:180px;
 
 .linha-estat select{
 flex:1;
+}
+
+.menu-logo img {
+  height: 50px; /* ajusta a altura da logo */
+  width: auto;
 }

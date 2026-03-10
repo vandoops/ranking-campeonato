@@ -208,3 +208,8 @@
 .menu-links a:hover{
   color: black;
 }
+
+.menu-logo img {
+  height: 50px; /* ajusta a altura da logo */
+  width: auto;
+}

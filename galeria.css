@@ -117,3 +117,8 @@ h1 {
   z-index: 20001; /* acima de tudo */
   margin-top: 30px;
 }
+
+.menu-logo img {
+  height: 50px; /* ajusta a altura da logo */
+  width: auto;
+}

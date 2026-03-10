@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin</title>
+
+<link rel="icon" href="logopng.png" type="image/png">
 <link rel="stylesheet" href="style.css">
 
 <link rel="stylesheet" href="menu.css">
@@ -30,7 +32,9 @@ window.location.href = "login.html";
   <!-- MENU SUPERIOR -->
 <nav class="menu-topo">
   <div class="menu-esquerda">
-    <div class="menu-logo">⚡ Bruxaria</div>
+    <div class="menu-logo">
+  <img src="logopng.png" alt="Logo da equipe" class="logo-img">
+</div>
     <div class="menu-links">
       
       <a href="index.html">🏆 Ranking</a>
@@ -256,37 +260,7 @@ document.getElementById("criarCampeonato").onclick = async () => {
 const nomeCamp = document.getElementById("nomeCampeonato").value;
 if (!nomeCamp) return alert("Digite o nome!");
 
-const file = document.getElementById("imagemCampeonato").files[0];
 
-if(!file) return alert("Selecione uma imagem!");
-
-const formData = new FormData();
-formData.append("file", file);
-formData.append("upload_preset", "campeonato_upload");
-
-const res = await fetch("https://api.cloudinary.com/v1_1/dfeyuaheu/image/upload",{
-method:"POST",
-body:formData
-});
-
-const dataImg = await res.json();
-
-const imageUrl = dataImg.secure_url;
-
-await addDoc(collection(db, "campeonatos"), {
-nomeCampeonato: nomeCamp,
-primeiro: primeiro.value,
-segundo: segundo.value,
-terceiro: terceiro.value,
-melhorAtaque: melhorAtaque.value,
-melhorDefesa: melhorDefesa.value,
-piorAtaque: piorAtaque.value,
-piorDefesa: piorDefesa.value,
-imagem: imageUrl,
-data: serverTimestamp()
-});
-
-alert("Campeonato salvo!");
 
 alert("Campeonato salvo!");
 

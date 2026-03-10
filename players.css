@@ -6,7 +6,8 @@ body {
   font-size: 14px; /* Força a mesma fonte que as outras telas */
   text-align: center;
 
-   background-image: url("fundoplayer.png");
+   background-image: linear-gradient(rgba(0, 119, 255, 0.6), rgba(0,0,0,0.6)),
+   url("fundoplayer.png");
   background-size: cover;       /* cobre toda tela */
   background-position: center;  /* centraliza */
   background-repeat: no-repeat; /* não repete */
@@ -39,7 +40,7 @@ button{
 padding:10px 20px;
 border:none;
 border-radius:10px;
-background:rgb(13, 255, 0);
+background:rgb(255, 247, 0);
 cursor:pointer;
 }
 
@@ -72,4 +73,9 @@ color:white;
 border:none;
 padding:5px 10px;
 border-radius:6px;
+}
+
+.menu-logo img {
+  height: 50px; /* ajusta a altura da logo */
+  width: auto;
 }
