@@ -38,9 +38,11 @@ window.location.href = "login.html";
     <div class="menu-links">
       
       <a href="index.html">🏆 Ranking</a>
-      <a href="galeria.html">📸 Galeria</a>
+      <a href="galeria.html">📸 Galeria de fotos</a>
+      <a href="galeria-gols.html">⚽Galeria de Gols</a>
       <a href="admin.html">👑 Admin</a>
       <a href="players.html">👥 Players</a>
+      
 
     </div>
   </div>
@@ -107,8 +109,13 @@ window.location.href = "login.html";
 <hr>
 
 <h3>📸 Imagem do Campeão</h3>
-
 <input type="file" id="imagemCampeonato">
+
+<h3>⚽ Vídeo do Gol</h3>
+<input type="file" id="videoGol" accept="video/*">
+
+<label>Dono do Gol Mais bonito do Campeonato</label>
+<input type="text" id="donoGol" placeholder="Ex: Bruxo da Silva">
 
 <br><br>
 
@@ -258,13 +265,84 @@ playerPontuacao.innerHTML += `<option value="${nome}">${nome}</option>`;
 document.getElementById("criarCampeonato").onclick = async () => {
 
 const nomeCamp = document.getElementById("nomeCampeonato").value;
+const imagem = document.getElementById("imagemCampeonato").files[0];
+const video = document.getElementById("videoGol").files[0];
+const donoGol = document.getElementById("donoGol").value;
+
 if (!nomeCamp) return alert("Digite o nome!");
 
+let imagemURL = "";
+let videoURL = "";
 
+
+// ===== upload imagem =====
+
+if(imagem){
+
+const formData = new FormData();
+
+formData.append("file", imagem);
+formData.append("upload_preset", "campeonato_upload");
+
+const res = await fetch("https://api.cloudinary.com/v1_1/dfeyuaheu/image/upload",{
+method:"POST",
+body:formData
+});
+
+const data = await res.json();
+
+imagemURL = data.secure_url;
+
+}
+
+
+// ===== upload video =====
+
+if(video){
+
+const formDataVideo = new FormData();
+
+formDataVideo.append("file", video);
+formDataVideo.append("upload_preset", "campeonato_upload");
+
+const resVideo = await fetch("https://api.cloudinary.com/v1_1/dfeyuaheu/video/upload",{
+method:"POST",
+body:formDataVideo
+});
+
+const dataVideo = await resVideo.json();
+
+videoURL = dataVideo.secure_url;
+
+}
+
+
+// ===== salvar campeonato =====
+
+await addDoc(collection(db,"campeonatos"),{
+
+nomeCampeonato: nomeCamp,
+imagem: imagemURL,
+videoGol: videoURL,
+donoGol: donoGol,
+
+primeiro: primeiro.value,
+segundo: segundo.value,
+terceiro: terceiro.value,
+
+melhorAtaque: melhorAtaque.value,
+melhorDefesa: melhorDefesa.value,
+piorAtaque: piorAtaque.value,
+piorDefesa: piorDefesa.value,
+
+data: serverTimestamp()
+
+});
 
 alert("Campeonato salvo!");
 
 };
+
 
 /* ================= LISTAR CAMPEONATOS ================= */
 

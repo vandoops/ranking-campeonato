@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Galeria de Gols</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="menu.css">
+<link rel="stylesheet" href="gols.css">
+
+
+</head>
+
+<body>
+
+<nav class="menu-topo">
+
+<div class="menu-links">
+
+<a href="index.html">🏆 Ranking</a>
+      <a href="galeria.html">📸 Galeria de fotos</a>
+      <a href="galeria-gols.html">⚽Galeria de Gols</a>
+
+
+</div>
+
+</nav>
+
+<h1 style="text-align:center;margin-top:30px;">⚽ Galeria de Gols</h1>
+
+<div class="galeria-gols" id="galeriaGols"></div>
+
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+apiKey: "SUA_API_KEY",
+authDomain: "ranking-campeoes.firebaseapp.com",
+projectId: "ranking-campeoes",
+storageBucket: "ranking-campeoes.firebasestorage.app",
+messagingSenderId: "1049217546195",
+appId: "1:1049217546195:web:6a10959a84949e3456e126"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const galeria = document.getElementById("galeriaGols");
+
+
+onSnapshot(collection(db,"campeonatos"),(snap)=>{
+
+galeria.innerHTML="";
+
+snap.forEach(docSnap=>{
+
+const data = docSnap.data();
+
+if(!data.videoGol) return;
+
+const card = document.createElement("div");
+
+card.className="card-gol";
+
+card.innerHTML=`
+
+<video controls>
+<source src="${data.videoGol}" type="video/mp4">
+</video>
+
+<div class="info-gol">
+<h3>🏆 ${data.nomeCampeonato}</h3>
+<p>⚽ Gol de: <b>${data.donoGol || "Desconhecido"}</b></p>
+</div>
+
+`;
+
+galeria.appendChild(card);
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI';
+  color: white;
+  min-height: 100vh;
+}
+
+/* GRID */
+
+.galeria-gols {
+
+display: grid;
+grid-template-columns: repeat(auto-fill, 220px);
+justify-content: center;
+gap: 20px;
+padding: 20px;
+
+}
+
+/* CARD */
+
+.card-gol {
+
+background: #1c1c1c;
+border-radius: 12px;
+overflow: hidden;
+box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+transition: 0.3s;
+
+}
+
+.card-gol:hover {
+
+transform: translateY(-5px);
+
+}
+
+/* VIDEO */
+
+.card-gol video {
+
+width: 100%;
+height: 150px;
+object-fit: cover;
+display: block;
+
+}
+
+/* TEXTO */
+
+.info-gol {
+
+padding: 15px;
+font-size: 13px;
+
+}
+
+.info-gol h3 {
+
+margin: 0 0 5px 0;
+font-size: 15px;
+
+}
+
+
+/* MODAL VIDEO */
+
+.modal {
+
+display:none;
+position:fixed;
+z-index:9999;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+
+}
+
+.modal-video{
+
+display:block;
+margin:auto;
+max-width:90%;
+max-height:80vh;
+margin-top:60px;
+
+}
+
+.fechar{
+
+position:absolute;
+top:20px;
+right:35px;
+color:white;
+font-size:40px;
+font-weight:bold;
+cursor:pointer;
+
+}
