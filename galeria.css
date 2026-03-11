@@ -38,6 +38,7 @@ h1 {
 
 /* CARD */
 .card-galeria {
+  margin-top: 60px;
   background: #1c1c1c;
   border-radius: 12px;
   overflow: hidden;

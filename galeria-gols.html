@@ -15,17 +15,20 @@
 
 <body>
 
+<!-- MENU SUPERIOR -->
 <nav class="menu-topo">
-
-<div class="menu-links">
-
-<a href="index.html">🏆 Ranking</a>
+  <div class="menu-esquerda">
+    <div class="menu-logo">
+  <img src="logopng.png" alt="Logo da equipe" class="logo-img">
+</div>
+    <div class="menu-links">
+      <a href="index.html">🏆 Ranking</a>
       <a href="galeria.html">📸 Galeria de fotos</a>
       <a href="galeria-gols.html">⚽Galeria de Gols</a>
-
-
-</div>
-
+      
+    </div>
+  </div>
+<div class="menu-hamburger">&#9776;</div> <!-- ícone hamburger -->
 </nav>
 
 <h1 style="text-align:center;margin-top:30px;">⚽ Galeria de Gols</h1>
@@ -94,6 +97,15 @@ galeria.appendChild(card);
 
 });
 
+</script>
+
+<script>
+  const hamburger = document.querySelector('.menu-hamburger');
+  const menuLinks = document.querySelector('.menu-links');
+
+  hamburger.addEventListener('click', () => {
+    menuLinks.classList.toggle('active'); // abre e fecha o menu
+  });
 </script>
 
 </body>
