@@ -30,7 +30,7 @@ flex:0.35;
 
 background:
 linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),
-url("../image/imglogin.png");
+url("imglogin.png");
 
 background-size:cover;
 background-position:center;
