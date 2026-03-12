@@ -1,3 +1,7 @@
+html, body{
+overflow-x: hidden;
+}
+
 /* ========================= */
 /* GLOBAL RANKING */
 /* ========================= */
@@ -15,12 +19,13 @@ body {
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
   color: rgb(255, 255, 255);
-  overflow-x: hidden;
   text-align: center;
+
+  overflow-x: hidden; /* impede a tela de ir pro lado */
 
   background:
     linear-gradient(rgba(0, 109, 204, 0.65), rgba(0,0,0,0.65)),
-    url("fundo.png");
+    url("../image/fundo.png");
 
   background-size: cover;
   background-position: center;
@@ -228,28 +233,33 @@ h2 {
     width: 95%;
   }
 
+  
   /* container já respeita menu.css */
-  .container{
+.container{
 max-width:1200px;
 margin:auto;
 padding:20px;
-margin-top:120px;
+margin-top:90px;
 }
 }
 
 
 .ranking-container{
-display:flex;
-gap:60px;
-justify-content:center;
-flex-wrap:wrap;
+display: flex;
+gap: 30px;
+justify-content: center;
+flex-wrap: wrap;
 }
 
 .ranking-box{
-width:350px;
-background:#111;
-padding:20px;
-border-radius:10px;
+background: #111;
+padding: 20px;
+border-radius: 10px;
+
+width: 100%;
+max-width: 520px;
+margin: 0 auto;
+margin-bottom: 50px;
 }
 
 .linha-ranking{
@@ -262,4 +272,87 @@ border-bottom:1px solid rgba(255,255,255,0.1);
 .menu-logo img {
   height: 50px; /* ajusta a altura da logo */
   width: auto;
+}
+
+
+.linha-ranking{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px;
+border-bottom:1px solid #333;
+}
+
+.zoeira{
+font-size:18px;
+margin-left:10px;
+}
+
+.linha-ranking{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px;
+border-bottom:1px solid #333;
+}
+
+.lado-dir{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.zoeira{
+font-size:18px;
+}
+
+.lado-dir{
+display:flex;
+align-items:center;
+gap:8px;
+justify-content:flex-end;
+}
+
+.zoeira{
+width:25px;
+text-align:center;
+font-size:18px;
+}
+
+.mensagem-zoeira{
+background:#11111100;
+padding:12px;
+margin-bottom:20px;
+border-radius:8px;
+text-align:center;
+font-weight:bold;
+font-size:16px;
+
+overflow-x:hidden;
+}
+
+.msg{
+white-space: nowrap;
+margin:4px 0;
+}
+
+@media (max-width:768px){
+
+
+.mensagem-zoeira{
+overflow-x:auto;
+}
+.ranking-box{
+max-width:100%;
+}
+
+.mensagem-zoeira{
+font-size:14px;
+}
+
+}
+
+img, video{
+max-width:100%;
+height:auto;
 }

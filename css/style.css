@@ -25,7 +25,7 @@ body {
 
   background: 
     linear-gradient(rgba(0, 119, 255, 0.6), rgba(0,0,0,0.6)),
-    url("fundoadm.png");
+    url("../image/fundoadm.png");
 
   background-size: cover;
   background-position: center;

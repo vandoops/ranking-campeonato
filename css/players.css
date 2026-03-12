@@ -7,7 +7,7 @@ body {
   text-align: center;
 
    background-image: linear-gradient(rgba(0, 119, 255, 0.6), rgba(0,0,0,0.6)),
-   url("fundoplayer.png");
+   url("../image/fundoplayer.png");
   background-size: cover;       /* cobre toda tela */
   background-position: center;  /* centraliza */
   background-repeat: no-repeat; /* não repete */
