@@ -75,66 +75,135 @@ h2 {
 /* PÓDIO */
 /* ========================= */
 
-#podio {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 40px;
-  margin-top: 80px;
-  margin-bottom: 60px;
-  flex-wrap: wrap;
+#podio{
+display:flex;
+justify-content:center;
+align-items:flex-end;
+gap:18px;
+margin-top:25px;
+margin-bottom:30px;
 }
 
-.podio-item {
-  width: 230px;
-  padding: 30px 20px;
-  border-radius: 25px;
-  text-align: center;
-  backdrop-filter: blur(15px);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  transition: 0.3s ease;
+/* caixa base */
+
+.podio-item{
+width:120px;
+border-radius:20px;
+text-align:center;
+padding:14px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:6px;
+font-weight:bold;
+
+position:relative;
+overflow:hidden;
+
+transition:0.3s;
+}
+.podio-item:hover{
+transform:translateY(-8px) scale(1.05);
+box-shadow:0 15px 35px rgba(0,0,0,0.6);
 }
 
-.podio-item:hover {
-  transform: translateY(-10px) scale(1.05);
+.podio-item::before{
+content:"";
+position:absolute;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.4),
+transparent
+);
+
+transform:rotate(25deg);
+opacity:0;
+transition:0.5s;
 }
 
-.podio-1 {
-  order: 2;
-  padding-top: 60px;
-  padding-bottom: 60px;
-  background: linear-gradient(135deg, #ffd700, #ffae00);
-  color: black;
-  box-shadow: 0 0 40px gold;
+.podio-item:hover::before{
+left:100%;
+opacity:1;
 }
 
-.podio-2 {
-  order: 1;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background: linear-gradient(135deg, #c0c0c0, #e6e6e6);
-  color: black;
+.podio-1{
+order:2;
+height:140px;
+background:linear-gradient(135deg,#e600ff,#ea00ff66);
+color:black;
+box-shadow:0 0 30px gold;
+
+animation: brilhoCampeao 2s infinite alternate;
 }
 
-.podio-3 {
-  order: 3;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  background: linear-gradient(135deg, #cd7f32, #8b5a2b);
-  color: rgb(0, 0, 0);
+@keyframes brilhoCampeao{
+
+0%{
+box-shadow:0 0 20px rgba(208, 0, 255, 0.518);
 }
 
-.podio-item h3 {
-  font-size: 34px;
-  margin: 0;
+100%{
+box-shadow:0 0 45px rgb(221, 0, 255);
 }
 
-.podio-item p {
-  font-size: 18px;
-  font-weight: bold;
 }
 
+/* alturas */
+
+.podio-1{
+order:2;
+height:140px;
+background:linear-gradient(135deg,#e600ff,#ea00ff66);
+color:black;
+box-shadow:0 0 30px gold;
+}
+
+.podio-2{
+order:1;
+height:110px;
+background:linear-gradient(135deg,#2a4dff,#2049ff71);
+color:black;
+}
+
+.podio-3{
+order:3;
+height:105px;
+background:linear-gradient(135deg,#3bc42c,#00ff087b);
+color:black;
+}
+
+/* medalha topo */
+
+.podio-item h3{
+font-size:26px;
+margin:0;
+}
+
+/* nome */
+
+.podio-item p{
+margin:0;
+font-size:18px;
+line-height:1.2;
+}
+
+/* medalhas pequenas */
+
+.podio-item span{
+font-size:13px;
+font-weight:normal;
+}
+
+.podio-item{
+cursor:pointer;
+}
 /* ========================= */
 /* GALERIA JOGADORES */
 /* ========================= */

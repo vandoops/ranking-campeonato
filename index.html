@@ -46,8 +46,13 @@
 <div class="ranking-container">
 
 <div class="ranking-box">
+
 <h2>Maiores Medalhistas</h2>
+
+<div id="podio"></div>
+
 <div id="rankingMedalhas"></div>
+
 </div>
 
 
@@ -96,12 +101,13 @@ const podio = document.getElementById("podio");
 const galeria = document.getElementById("galeria");
 const modal = document.getElementById("modal");
 const detalhes = document.getElementById("detalhes");
+let stats = {};
 
 document.getElementById("fechar").onclick = () => modal.style.display = "none";
 
 onSnapshot(collection(db, "campeonatos"), (snap) => {
 
-const stats = {};
+stats = {};
 
 snap.forEach(docSnap => {
 
@@ -137,14 +143,17 @@ if(pos === "segundo") stats[nome].pontos += 1;
 
 const rankingMedalhas = Object.entries(stats).sort((a,b)=>{
 
-const totalA = a[1].primeiro + a[1].segundo + a[1].terceiro;
-const totalB = b[1].primeiro + b[1].segundo + b[1].terceiro;
+const pontosA =
+(a[1].primeiro * 5) +
+(a[1].segundo * 3) +
+(a[1].terceiro * 1);
 
-if(totalB !== totalA) return totalB - totalA;
-if(b[1].primeiro !== a[1].primeiro) return b[1].primeiro - a[1].primeiro;
-if(b[1].segundo !== a[1].segundo) return b[1].segundo - a[1].segundo;
+const pontosB =
+(b[1].primeiro * 5) +
+(b[1].segundo * 3) +
+(b[1].terceiro * 1);
 
-return b[1].terceiro - a[1].terceiro;
+return pontosB - pontosA;
 
 });
 
@@ -162,11 +171,57 @@ const divPontos = document.getElementById("rankingPontos");
 divMedalhas.innerHTML = "";
 divPontos.innerHTML = "";
 
-rankingMedalhas.forEach((p,i)=>{
+/* ================= PODIO ================= */
+
+const podioDiv = document.getElementById("podio");
+
+if(rankingMedalhas.length >= 3){
+
+const primeiro = rankingMedalhas[0];
+const segundo = rankingMedalhas[1];
+const terceiro = rankingMedalhas[2];
+
+podioDiv.innerHTML = `
+
+<div class="podio-item podio-2" onclick="abrirPlayer('${segundo[0]}')">
+<h3>🥈</h3>
+<p>${segundo[0]}</p>
+<span>
+🥇 ${segundo[1].primeiro}
+🥈 ${segundo[1].segundo}
+🥉 ${segundo[1].terceiro}
+</span>
+</div>
+
+<div class="podio-item podio-1" onclick="abrirPlayer('${primeiro[0]}')">
+<h3>🥇</h3>
+<p>${primeiro[0]}</p>
+<span>
+🥇 ${primeiro[1].primeiro}
+🥈 ${primeiro[1].segundo}
+🥉 ${primeiro[1].terceiro}
+</span>
+</div>
+
+<div class="podio-item podio-3" onclick="abrirPlayer('${terceiro[0]}')">
+<h3>🥉</h3>
+<p>${terceiro[0]}</p>
+<span>
+🥇 ${terceiro[1].primeiro}
+🥈 ${terceiro[1].segundo}
+🥉 ${terceiro[1].terceiro}
+</span>
+</div>
+
+`;
+
+}
+
+rankingMedalhas.slice(3).forEach((p,i)=>{
 
 divMedalhas.innerHTML += `
 <div class="linha-ranking">
-<span>${i+1}º ${p[0]}</span>
+<span>${i+4}º ${p[0]}</span>
 <span>🥇 ${p[1].primeiro} 🥈 ${p[1].segundo} 🥉 ${p[1].terceiro}</span>
 </div>
 `;
@@ -258,6 +313,26 @@ ${p[1]} pts
 });
 
 });
+
+window.abrirPlayer = function(nome){
+
+const data = stats[nome];
+
+detalhes.innerHTML = `
+<h2>${nome}</h2>
+
+<p>🥇 Primeiros lugares: ${data.primeiro}</p>
+<p>🥈 Segundos lugares: ${data.segundo}</p>
+<p>🥉 Terceiros lugares: ${data.terceiro}</p>
+
+<p>⭐ Total de medalhas: ${
+data.primeiro + data.segundo + data.terceiro
+}</p>
+`;
+
+modal.style.display = "flex";
+
+}
 
 </script>
 
