@@ -24,8 +24,8 @@ body {
   overflow-x: hidden; /* impede a tela de ir pro lado */
 
   background:
-    linear-gradient(rgba(0, 109, 204, 0.65), rgba(0,0,0,0.65)),
-    url("fundo.png");
+    linear-gradient(rgba(0, 109, 204, 0), rgb(0, 0, 0)),
+    url("fundoranking.png");
 
   background-size: cover;
   background-position: center;
@@ -321,7 +321,7 @@ flex-wrap: wrap;
 }
 
 .ranking-box{
-background: #111;
+background: #111111d1;
 padding: 20px;
 border-radius: 10px;
 
