@@ -22,7 +22,7 @@ body {
 }
 
 .card{
-background:#2d2e1c;
+background:rgba(0,0,0,0.4);
 padding:30px;
 border-radius:15px;
 margin-bottom:20px;
