@@ -246,15 +246,13 @@ snap.forEach(doc => {
 
 const data = doc.data();
 
-const pontos =
-(data.vitorias * 3) +
-(data.empates * 1);
+const pontos = Number(data.pontos) || 0;
 
 if(!ranking[data.player]){
 ranking[data.player] = 0;
 }
 
-ranking[data.player] += pontos;
+ranking[data.player] = pontos;
 
 });
 

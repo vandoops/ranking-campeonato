@@ -514,9 +514,10 @@ width:70px;
 background:#1a73e8;
 border:none;
 color:white;
-padding:8px 12px;
+padding:10px 18px;
 border-radius:10px;
 cursor:pointer;
+width: 40px;
 }
 
 .btnExcluirPontuacao:hover{
@@ -649,4 +650,13 @@ flex:1;
 .menu-logo img {
   height: 50px; /* ajusta a altura da logo */
   width: auto;
+}
+
+.btnEditarPontuacao,
+.btnExcluirPontuacao{
+  border:none;
+  padding:6px 10px;
+  margin:2px;
+  border-radius:6px;
+  cursor:pointer;
 }

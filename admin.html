@@ -129,14 +129,8 @@ window.location.href = "login.html";
 <label>Player</label>
 <select id="playerPontuacao"></select>
 
-<label>Vitórias</label>
-<input type="number" id="vitorias" min="0">
-
-<label>Empates</label>
-<input type="number" id="empates" min="0">
-
-<label>Derrotas</label>
-<input type="number" id="derrotas" min="0">
+<label>Pontuação Atual</label>
+<input type="number" id="pontos" min="0">
 
 <button id="salvarPontuacao">Salvar Pontuação</button>
 
@@ -153,10 +147,7 @@ window.location.href = "login.html";
 <thead>
 <tr>
 <th>Player</th>
-<th>VIT</th>
-<th>E</th>
-<th>DER</th>
-<th>PTS</th>
+<th>PONTOS</th>
 <th></th>
 </tr>
 </thead>
@@ -464,96 +455,95 @@ console.log(rankingFinal);
 document.getElementById("salvarPontuacao").onclick = async () => {
 
 const player = document.getElementById("playerPontuacao").value;
-const vitorias = Number(document.getElementById("vitorias").value);
-const empates = Number(document.getElementById("empates").value);
-const derrotas = Number(document.getElementById("derrotas").value);
+const pontos = Number(document.getElementById("pontos").value);
 
 const snap = await getDocs(collection(db,"pontuacoes"));
 
 let encontrado = null;
 
 snap.forEach(docSnap => {
-const data = docSnap.data();
-
-if(data.player === player){
-encontrado = docSnap;
-}
+  if(docSnap.data().player === player){
+    encontrado = docSnap;
+  }
 });
 
 if(encontrado){
 
-const data = encontrado.data();
-
-await updateDoc(doc(db,"pontuacoes",encontrado.id),{
-
-vitorias: data.vitorias + vitorias,
-empates: data.empates + empates,
-derrotas: data.derrotas + derrotas
-
-});
+  await updateDoc(doc(db,"pontuacoes", encontrado.id), {
+    pontos: pontos
+  });
 
 }else{
 
-await addDoc(collection(db,"pontuacoes"),{
-
-player: player,
-vitorias: vitorias,
-empates: empates,
-derrotas: derrotas,
-data: serverTimestamp()
-
-});
+  await addDoc(collection(db,"pontuacoes"), {
+    player: player,
+    pontos: pontos,
+    data: serverTimestamp()
+  });
 
 }
 
-alert("Pontuação atualizada!");
-
+alert("Pontuação salva!");
 };
+
 
 /* ================= LISTAR PONTUAÇÕES ================= */
 
 
 
-onSnapshot(collection(db,"pontuacoes"),(snap)=>{
+onSnapshot(collection(db,"pontuacoes"), (snap) => {
 
 const lista = document.getElementById("listaPontuacoes");
-
 lista.innerHTML = "";
 
-snap.forEach(docSnap=>{
+snap.forEach(docSnap => {
 
-const data = docSnap.data();
+  const data = docSnap.data();
 
-const pontos = (data.vitorias * 3) + (data.empates * 1);
+  const linha = document.createElement("tr");
 
-const linha = document.createElement("tr");
+  linha.innerHTML = `
+    <td>${data.player}</td>
+    <td><b>${data.pontos}</b></td>
+    <td>
+      <button class="btnEditarPontuacao">✏️</button>
+      <button class="btnExcluirPontuacao">🗑</button>
+    </td>
+  `;
 
-linha.innerHTML = `
-<td>${data.player}</td>
-<td>${data.vitorias}</td>
-<td>${data.empates}</td>
-<td>${data.derrotas}</td>
-<td><b>${pontos}</b></td>
-<td><button class="btnExcluirPontuacao">🗑</button></td>
-`;
+  // EXCLUIR
+  linha.querySelector(".btnExcluirPontuacao").onclick = async () => {
+    if(confirm("Excluir pontuação?")){
+      await deleteDoc(doc(db,"pontuacoes",docSnap.id));
+    }
+  };
 
-const btnExcluir = linha.querySelector(".btnExcluirPontuacao");
+  // EDITAR
+  linha.querySelector(".btnEditarPontuacao").onclick = async () => {
 
-btnExcluir.onclick = async () => {
+    const novoValor = prompt(
+      "Nova pontuação para " + data.player + ":",
+      data.pontos
+    );
 
-if(confirm("Excluir pontuação?")){
-await deleteDoc(doc(db,"pontuacoes",docSnap.id));
-}
+    if(novoValor === null) return;
 
-};
+    await updateDoc(doc(db,"pontuacoes",docSnap.id), {
+      pontos: Number(novoValor)
+    });
 
-lista.appendChild(linha);
+    alert("Pontuação atualizada!");
+  };
+
+  lista.appendChild(linha);
+
+});
 
 });
 
 
 
-});
+
 
 const headerPontuacoes = document.getElementById("headerPontuacoes");
 const detalhesPontuacoes = document.getElementById("detalhesPontuacoes");
