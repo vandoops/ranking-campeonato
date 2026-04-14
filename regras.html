@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regras</title>
+
+  <link rel="icon" href="logopng.png" type="image/png">
+  <link rel="stylesheet" href="regras.css">
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+
+  <!-- MENU -->
+  <nav class="menu-topo">
+    <div class="menu-esquerda">
+      
+      <div class="menu-logo">
+        <img src="logopng.png" alt="Logo da equipe" class="logo-img">
+      </div>
+
+      <div class="menu-links">
+        <a href="index.html">🏆 Ranking</a>
+        <a href="galeria.html">📸 Galeria de fotos</a>
+        <a href="galeria-gols.html">⚽ Galeria de Gols</a>
+        <a href="regras.html">📜 Regras</a>
+      </div>
+
+    </div>
+
+    <div class="menu-hamburger">&#9776;</div>
+  </nav>
+
+  <!-- SLIDER -->
+   <div class="container-principal">
+  <div class="slider">
+
+    <div class="slides" id="slides">
+      <img src="slide1.png" class="slide">
+      <img src="slide2.png" class="slide">
+      <img src="slide3.png" class="slide">
+      <img src="slide4.png" class="slide">
+      <img src="slide5.png" class="slide">
+      <img src="slide6.png" class="slide">
+    </div>
+
+    <button class="prev" onclick="voltar()">❮</button>
+    <button class="next" onclick="avancar()">❯</button>
+
+  </div>
+  </div>
+
+  <a href="index.html" class="voltar">⬅ Voltar</a>
+
+  <!-- JS -->
+  <script>
+    let index = 0;
+    const slides = document.getElementById("slides");
+    const totalSlides = document.querySelectorAll(".slide").length;
+
+    function atualizarSlide() {
+      slides.style.transform = "translateX(-" + (index * 100) + "%)";
+    }
+
+    function avancar() {
+      index++;
+      if (index >= totalSlides) index = 0;
+      atualizarSlide();
+    }
+
+    function voltar() {
+      index--;
+      if (index < 0) index = totalSlides - 1;
+      atualizarSlide();
+    }
+
+    // MENU HAMBURGER
+    const hamburger = document.querySelector('.menu-hamburger');
+    const menuLinks = document.querySelector('.menu-links');
+
+    hamburger.addEventListener('click', () => {
+      menuLinks.classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>

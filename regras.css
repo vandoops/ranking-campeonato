@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  background: #0f172a;
+  font-family: Arial, sans-serif;
+  padding-top: 70px; /* espaço pro menu */
+}
+
+
+.container-principal {
+  margin-top: 80px;
+}
+
+/* SLIDER */
+.slider {
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  margin: 100px auto 30px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* CONTAINER */
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* IMAGENS */
+.slide {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* BOTÕES */
+button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 8px;
+}
+
+/* POSIÇÃO BOTÕES */
+.prev {
+  left: 5px;
+}
+
+.next {
+  right: 5px;
+}
+
+/* VOLTAR */
+.voltar {
+  display: block;
+  text-align: center;
+  margin: 20px auto;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+
+  .slider {
+    width: 95%;
+    margin: 80px auto 20px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  .voltar {
+    font-size: 13px;
+  }
+}
