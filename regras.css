@@ -88,3 +88,44 @@ button {
     font-size: 13px;
   }
 }
+
+.extra-conteudo{
+  width: 90%;
+  max-width: 700px;
+  margin: 20px auto 50px;
+}
+
+.info-box{
+  background: #1e293b;
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.info-box h2{
+  margin-top: 0;
+  color: #38bdf8;
+}
+
+.cards-info{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.mini-card{
+  background: #334155;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+@media (max-width: 768px){
+  .cards-info{
+    grid-template-columns: 1fr;
+  }
+}
