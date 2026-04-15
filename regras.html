@@ -34,141 +34,238 @@
     <div class="menu-hamburger">&#9776;</div>
   </nav>
 
-  <!-- SLIDER -->
-   <div class="slider">
+  
 
-  <div class="slides" id="slides">
+    <div class="cards-slider">
 
-  <div class="slide-texto">
-    <h2>🏆 4ª Copa Bruxaria EC</h2>
-    <p>🌍 Modo Copa do Mundo Authentic</p>
-    <p>🎮 Campeonato via Arena</p>
-    <p>🎲 Seleções sorteadas</p>
+  <button class="seta-card esquerda" onclick="voltarCard()">❮</button>
+
+  <div class="cards-stack" id="cardsStack">
+
+    <!-- CARD 1 -->
+    <div class="card-topico">
+      <h2>🏆 4ª COPA BRUXARIA EC – COPA DO MUNDO AUTHENTIC</h2>
+      <p>📢 Como vai funcionar o campeonato</p>
+      <p>A 4ª edição da Copa Bruxaria será disputada no formato Copa do Mundo (seleções sorteadas), utilizando o sistema do site Arena.</p>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card-topico">
+      <h2>✔️ Inscrição</h2>
+      <p>Os jogadores deverão se inscrever diretamente no campeonato pelo site Arena</p>
+      <p>Após a inscrição, será necessário realizar o pagamento da taxa via PIX</p>
+      <p>💰 Valor da inscrição: R$ 2,00</p>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card-topico">
+      <h2>⚙️ Etapas do Campeonato</h2>
+      <p>1. Inscrição + Pagamento</p>
+      <p>Jogador se inscreve no Arena</p>
+      <p>Realiza o pagamento</p>
+      <p>Apenas jogadores com pagamento confirmado participarão</p>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="card-topico">
+      <h2>2. Definição do Formato</h2>
+      <p>Após o fechamento das inscrições, será analisado o número total de participantes</p>
+      <p>Com base nisso, será definido:</p>
+      <p>Número de grupos</p>
+      <p>Quantidade de classificados por grupo</p>
+      <p>Estrutura do mata-mata (oitavas, quartas, etc.)</p>
+    </div>
+
+    <!-- CARD 5 -->
+    <div class="card-topico">
+      <h2>3. Sorteio das Seleções</h2>
+      <p>Será selecionada uma quantidade de seleções equivalente ao número de participantes</p>
+      <p>As seleções serão sorteadas aleatoriamente</p>
+      <p>❗ Importante:</p>
+      <p>Ninguém escolhe time</p>
+      <p>É totalmente baseado em sorte</p>
+    </div>
+
+    <!-- CARD 6 -->
+    <div class="card-topico">
+      <h2>4. Início do Campeonato</h2>
+      <p>Após definição dos grupos e sorteio das seleções, o campeonato terá início seguindo os prazos e regras abaixo</p>
+    </div>
+
+    <!-- CARD 7 -->
+    <div class="card-topico">
+      <h2>📜 REGULAMENTO – CAMPEONATO</h2>
+      <p>💰 1. Inscrição</p>
+      <p>Valor: R$ 2,00 via PIX (pagamento antecipado)</p>
+      <p>Só participa quem estiver com pagamento confirmado antes do início</p>
+    </div>
+
+    <!-- CARD 8 -->
+    <div class="card-topico">
+      <h2>🏆 2. Formato do Campeonato</h2>
+      <p>Sistema: Fase de grupos + mata-mata</p>
+      <p>A estrutura (nº de grupos e classificados) varia conforme o nº de inscritos</p>
+    </div>
+
+    <!-- CARD 9 -->
+    <div class="card-topico">
+      <h2>⏱️ 3. Prazos e Andamento do Campeonato</h2>
+      <p>📅 3.1 Fase de Grupos</p>
+      <p>Cada rodada tem prazo de 1 dia</p>
+      <p>Exemplo: 5 rodadas = 5 dias totais</p>
+      <p>Obrigatório:</p>
+      <p>Rodada 1 → dia 1</p>
+      <p>Rodada 2 → dia 2</p>
+      <p>e assim por diante</p>
+      <p>✔️ Pode adiantar jogos de rodadas futuras</p>
+    </div>
+
+    <!-- CARD 10 -->
+    <div class="card-topico">
+      <h2>🏆 3.2 Mata-Mata</h2>
+      <p>Cada fase tem prazo de 1 dia</p>
+      <p>Oitavas → 1 dia</p>
+      <p>Quartas → 1 dia</p>
+      <p>Semifinal → 1 dia</p>
+      <p>Final → 1 dia</p>
+      <p>✔️ Pode adiantar fases se ambos concordarem</p>
+      <p>❗ Obrigatório cumprir mínimo de 1 fase por dia</p>
+    </div>
+
+    <!-- CARD 11 -->
+    <div class="card-topico">
+      <h2>⚖️ 4. Sistema de WO e Realização das Partidas</h2>
+      <p>🕒 4.1 Horário Oficial</p>
+      <p>Horário padrão: 19h às 23h</p>
+      <p>Fora desse horário:</p>
+      <p>✔️ Pode jogar</p>
+      <p>❌ Não conta como tentativa oficial</p>
+    </div>
+
+    <!-- CARD 12 -->
+    <div class="card-topico">
+      <h2>📞 4.2 Regras de Chamada</h2>
+      <p>Quem chamar deve:</p>
+      <p>Estar dentro do horário oficial (19h–23h)</p>
+      <p>Permanecer disponível por mínimo de 1 hora</p>
+      <p>❗ Exemplo: chamou 19:45 → aguardar até 20:45</p>
+      <p>💡 Dica importante:</p>
+      <p>Marque o jogo no privado com seu adversário</p>
+      <p>As mensagens registram horário e minuto da chamada</p>
+      <p>Todas as tentativas devem ser comprovadas com print/foto</p>
+      <p>Isso serve como prova para o ADM decidir corretamente</p>
+    </div>
+
+    <!-- CARD 13 -->
+    <div class="card-topico">
+      <h2>⚖️ 4.3 Resultados possíveis</h2>
+      <p>✅ Vitória por WO (3x0):</p>
+      <p>Apenas 1 jogador chama dentro do horário e o adversário não aparece</p>
+      <p>Um chama dentro do horário e o outro apenas fora</p>
+      <p>Jogador chama e o adversário aparece dentro da 1h, mas quem chamou já saiu</p>
+      <p>🤝 Empate (0x0) – FASE DE GRUPOS:</p>
+      <p>Ambos não jogam dentro do prazo</p>
+      <p>Ambos demonstram tentativa, mas não conseguem se enfrentar</p>
+      <p>Conflito de horários (um chama, depois não pode, outro aparece depois)</p>
+    </div>
+
+    <!-- CARD 14 -->
+    <div class="card-topico">
+      <h2>🏆 4.4 Desempate no Mata-Mata</h2>
+      <p>❗ No mata-mata não pode haver empate por WO duplo (0x0)</p>
+      <p>Se ambos os jogadores cumprirem presença dentro do horário, mas não conseguirem se enfrentar (ex: horários diferentes), será aplicado o seguinte critério de desempate:</p>
+      <p>Ordem de prioridade:</p>
+      <p>🥇 % de aproveitamento na fase de grupos</p>
+      <p>🥈 Saldo de gols</p>
+      <p>🥉 Número de vitórias</p>
+      <p>➡️ O jogador com melhor desempenho nesses critérios avança de fase</p>
+      <p>📌 Isso valoriza quem teve melhor campanha e evita eliminações injustas</p>
+    </div>
+
+    <!-- CARD 15 -->
+    <div class="card-topico">
+      <h2>⚠️ 4.5 Regras Gerais</h2>
+      <p>Chamou → deve aguardar 1 hora ativo</p>
+      <p>Não apareceu no dia → risco de WO</p>
+      <p>Não pode jogar no dia?</p>
+      <p>✔️ Tente adiantar antes</p>
+      <p>❌ Caso contrário → sujeito a WO</p>
+    </div>
+
+    <!-- CARD 16 -->
+    <div class="card-topico">
+      <h2>📌 4.6 Responsabilidade</h2>
+      <p>Todas as partidas têm data limite</p>
+      <p>Não cumpriu → decisão por WO, empate ou critério de desempate</p>
+      <p>Imprevistos fazem parte → regra vale igual para todos</p>
+    </div>
+
+    <!-- CARD 17 -->
+    <div class="card-topico">
+      <h2>⚙️ 5. Configurações das Partidas</h2>
+      <p>🎮 5.1 Padrão Obrigatório</p>
+      <p>Todas as partidas devem seguir configurações padrão do jogo, com a seguinte obrigatoriedade:</p>
+      <p>✔️ A opção “pontuações niveladas dos jogadores” deve estar ativada</p>
+      <p>❌ Proibido alterar qualquer outra configuração da sala</p>
+    </div>
+
+    <!-- CARD 18 -->
+    <div class="card-topico">
+      <h2>🏆 5.2 Exceção – Mata-Mata</h2>
+      <p>Nas fases eliminatórias, quem criar a sala deve:</p>
+      <p>✔️ Ativar prorrogação</p>
+      <p>✔️ Ativar pênaltis</p>
+      <p>❗ Nenhuma outra configuração pode ser alterada (mantendo também as pontuações niveladas ativas)</p>
+    </div>
+
+    <!-- CARD 19 -->
+    <div class="card-topico">
+      <h2>🚫 6. Conduta</h2>
+      <p>Brincadeiras ✔️</p>
+      <p>Ofensas/xingamentos ❌ → exclusão do grupo</p>
+      <p>🤖 7. Proibição de IA</p>
+      <p>Uso de IA = exclusão do campeonato e do grupo</p>
+    </div>
+
+    <!-- CARD 20 -->
+    <div class="card-topico">
+      <h2>⚠️ Em caso de suspeita</h2>
+      <p>O jogador deve gravar a partida ou transmitir</p>
+      <p>As provas devem ser enviadas ao ADM</p>
+      <p>A decisão será tomada com base nas evidências</p>
+    </div>
+
+    <!-- CARD 21 -->
+    <div class="card-topico">
+      <h2>🌐 8. Conexão / Lag</h2>
+      <p>Problemas devem ser:</p>
+      <p>Pausados imediatamente</p>
+      <p>Gravados</p>
+      <p>Enviados ao ADM na hora</p>
+      <p>❗ Se finalizar a partida:</p>
+      <p>Não poderá reclamar depois</p>
+    </div>
+
+    <!-- CARD 22 -->
+    <div class="card-topico">
+      <h2>🎮 9. Padrão de Times</h2>
+      <p>Obrigatório uso de:</p>
+      <p>Escudos</p>
+      <p>Uniformes</p>
+      <p>dos times cadastrados/sorteados no Arena</p>
+    </div>
+
+    <!-- CARD 23 -->
+    <div class="card-topico">
+      <h2>⚖️ 10. Regra Final</h2>
+      <p>Ao participar, o jogador aceita todas as regras</p>
+      <p>Falta de leitura não isenta responsabilidade</p>
+      <p>Decisão final é da organização.</p>
+    </div>
+
   </div>
 
-  <div class="slide-texto">
-    <h2>💰 Inscrição</h2>
-    <p>📝 Entrar no campeonato no Arena</p>
-    <p>💸 Pagar taxa via PIX</p>
-    <p>✅ Só joga com pagamento confirmado</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>⚙️ Formato</h2>
-    <p>👥 Fase de grupos</p>
-    <p>🥊 Mata-mata</p>
-    <p>📊 Depende da quantidade de inscritos</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🎲 Sorteio</h2>
-    <p>🏳️ Uma seleção por jogador</p>
-    <p>❌ Ninguém escolhe time</p>
-    <p>🎯 Tudo na sorte</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>📅 Fase de Grupos</h2>
-    <p>⏱️ Cada rodada vale 1 dia</p>
-    <p>🚀 Pode adiantar partidas</p>
-    <p>📌 Ex: 5 rodadas = 5 dias</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🏆 Mata-Mata</h2>
-    <p>🥇 Oitavas = 1 dia</p>
-    <p>🥈 Quartas / Semi = 1 dia</p>
-    <p>🏆 Final = 1 dia</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🕒 Horário Oficial</h2>
-    <p>🕖 Das 19h às 23h</p>
-    <p>✔️ Dentro do horário vale chamada</p>
-    <p>❌ Fora do horário não conta</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>📞 Chamada</h2>
-    <p>📲 Chamou? fique online 1h</p>
-    <p>🧾 Tire print das tentativas</p>
-    <p>⚖️ Serve como prova pro ADM</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>⚖️ WO</h2>
-    <p>🚫 Rival não apareceu = WO</p>
-    <p>🏟️ Resultado: 3x0</p>
-    <p>📌 Pode decidir classificação</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🤝 Empate</h2>
-    <p>📍 Só na fase de grupos</p>
-    <p>⏳ Ambos tentaram e não jogaram</p>
-    <p>⚽ Resultado: 0x0</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🏆 Desempate Mata-Mata</h2>
-    <p>🥇 Aproveitamento</p>
-    <p>🥈 Saldo de gols</p>
-    <p>🥉 Número de vitórias</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🎮 Configuração</h2>
-    <p>⚙️ Pontuações niveladas ON</p>
-    <p>🚫 Proibido mudar outras opções</p>
-    <p>📌 Regra obrigatória</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🔥 Eliminatórias</h2>
-    <p>⏱️ Ativar prorrogação</p>
-    <p>🎯 Ativar pênaltis</p>
-    <p>✔️ Restante igual padrão</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🚫 Conduta</h2>
-    <p>😄 Brincadeiras liberadas</p>
-    <p>🤬 Ofensas proibidas</p>
-    <p>⛔ Pode gerar exclusão</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🤖 IA Proibida</h2>
-    <p>🚫 Uso de IA = exclusão</p>
-    <p>🎥 Pode exigir gravação</p>
-    <p>⚖️ ADM decide com provas</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🌐 Conexão</h2>
-    <p>⏸️ Pause na hora</p>
-    <p>📹 Grave o problema</p>
-    <p>📩 Envie ao ADM</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>🎮 Times</h2>
-    <p>🛡️ Escudo oficial</p>
-    <p>👕 Uniforme oficial</p>
-    <p>🏳️ Time sorteado no Arena</p>
-  </div>
-
-  <div class="slide-texto">
-    <h2>⚖️ Regra Final</h2>
-    <p>📜 Participou = aceitou regras</p>
-    <p>🙈 Não leu? continua valendo</p>
-    <p>👑 Palavra final da organização</p>
-  </div>
-
-</div>
-
-  <button class="prev" onclick="voltar()">❮</button>
-  <button class="next" onclick="avancar()">❯</button>
+  <button class="seta-card direita" onclick="proximoCard()">❯</button>
 
 </div>
 
@@ -187,8 +284,42 @@
 
 </div>
 
+
+<script>
+const cards = document.querySelectorAll(".card-topico");
+let atual = 0;
+
+function atualizarCards(){
+  cards.forEach(card=>{
+    card.className = "card-topico";
+  });
+
+  const total = cards.length;
+
+  cards[atual].classList.add("active");
+  cards[(atual + 1) % total].classList.add("next");
+  cards[(atual + 2) % total].classList.add("next2");
+  cards[(atual + 3) % total].classList.add("next3");
+  cards[(atual - 1 + total) % total].classList.add("prev");
+}
+
+function proximoCard(){
+  atual = (atual + 1) % cards.length;
+  atualizarCards();
+}
+
+function voltarCard(){
+  atual = (atual - 1 + cards.length) % cards.length;
+  atualizarCards();
+}
+
+atualizarCards();
+</script>
   <!-- JS -->
   <script>
+
+
+
     let index = 0;
     const slides = document.getElementById("slides");
     const totalSlides = document.querySelectorAll(".slide-texto").length;
