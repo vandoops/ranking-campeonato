@@ -26,16 +26,27 @@ body {
   transition: transform 0.5s ease-in-out;
 }
 
-/* IMAGENS */
-.slide {
+/* slide texto*/
+.slide-texto{
+  flex: 0 0 100%;
   width: 100%;
-  flex-shrink: 0;
+  box-sizing: border-box;
+  background: #1e293b;
+  color: white;
+  padding: 35px 25px;
+  border-radius: 12px;
+  text-align: center;
 }
 
-.slide img {
-  width: 100%;
-  height: auto;
-  display: block;
+.slide-texto h2{
+  color: #38bdf8;
+  margin-bottom: 15px;
+}
+
+.slide-texto p{
+  margin: 10px 0;
+  font-size: 18px;
+  line-height: 1.5;
 }
 
 /* BOTÕES */
@@ -129,3 +140,4 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
