@@ -7,34 +7,44 @@
 
   <link rel="icon" href="logopng.png" type="image/png">
   <link rel="stylesheet" href="regras.css">
-  <link rel="stylesheet" href="menu.css">
+  <link rel="stylesheet" href="header.css">
 </head>
 <body>
 
-  <!-- MENU -->
-  <nav class="menu-topo">
-    <div class="menu-esquerda">
-      
-      <div class="menu-logo">
-        <img src="logopng.png" alt="Logo da equipe" class="logo-img">
+  <!-- HEADER BANNER -->
+  <div class="header-banner">
+    <div class="banner-stripe"></div>
+    <div class="header-content">
+      <div class="header-left">
+        <div class="menu-hamburger" role="button" aria-label="Abrir menu">&#9776;</div>
+        <div class="menu-abas">
+          <a href="home.html" class="aba">HOME</a>
+          <a href="index.html" class="aba">RANKING</a>
+          <a href="galeria.html" class="aba">FOTOS CAMPEONATO</a>
+          <a href="galeria-gols.html" class="aba">GALERIA DE GOLS</a>
+          <a href="admin.html" class="aba">ADMIN</a>
+          <a href="players.html" class="aba">PLAYERS</a>
+          <a href="regras.html" class="aba aba-active">REGRAS</a>
+        </div>
       </div>
-
-      <div class="menu-links">
-  <a href="index.html">🏆 Ranking</a>
-  <a href="galeria.html">📸 Galeria de fotos</a>
-  <a href="galeria-gols.html">⚽ Galeria de Gols</a>
-  <a href="regras.html">📜 Regras</a>
-
-  <a href="javascript:void(0)" onclick="acessarProtegido('players.html')">👥 Players</a>
-<a href="javascript:void(0)" onclick="acessarProtegido('admin.html')">👑 Admin</a>
-</div>
-
+      <div class="header-right">
+        <img src="logopng.png" alt="Logo Copa Bruxaria" class="header-logo-container">
+      </div>
     </div>
+    <div class="banner-pink"></div>
+  </div>
 
-    <div class="menu-hamburger">&#9776;</div>
-  </nav>
-
-  
+  <script>
+    // Proteção para admin e players
+    document.querySelectorAll('.menu-abas a[href="admin.html"], .menu-abas a[href="players.html"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if(localStorage.getItem('bruxaria_logado') !== 'true') {
+          e.preventDefault();
+          window.location.href = 'login.html';
+        }
+      });
+    });
+  </script>
 
     <div class="cards-slider">
 
@@ -342,16 +352,17 @@ atualizarCards();
 
     // MENU HAMBURGER
     const hamburger = document.querySelector('.menu-hamburger');
-    const menuLinks = document.querySelector('.menu-links');
-
-    hamburger.addEventListener('click', () => {
-      menuLinks.classList.toggle('active');
-    });
+    const menuAbas = document.querySelector('.menu-abas');
+    if (hamburger && menuAbas) {
+      hamburger.addEventListener('click', () => {
+        menuAbas.classList.toggle('active');
+      });
+    }
 
 
     function acessarProtegido(pagina){
 
-  const logado = localStorage.getItem("adminLogado");
+  const logado = localStorage.getItem("bruxaria_logado");
 
   if(logado === "true"){
     window.location.href = pagina;
@@ -363,5 +374,20 @@ atualizarCards();
 }
   </script>
 
+<script>
+(function(){
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.menu-links a, .menu-abas a').forEach(a=>{
+    const href = a.getAttribute('href');
+    if(href === path || (href === 'home.html' && (path === '' || path === ''))){
+      a.classList.add('selected');
+      a.classList.add('aba-active');
+    } else {
+      a.classList.remove('selected');
+      a.classList.remove('aba-active');
+    }
+  });
+})();
+</script>
 </body>
 </html>

@@ -21,32 +21,15 @@ body {
   padding: 0;
   min-height: 100vh;
   font-family: 'Segoe UI';
-  color: white;
-
-  background: 
-    linear-gradient(rgba(0, 119, 255, 0.6), rgba(0,0,0,0.6)),
-    url("fundoadm.png");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  color: #1a1a1a;
+  background: #fff9f9;
+  overflow-x: hidden;
 }
 
-/* 🔵 Luz azul */
 body::before {
-  content: "";
-  position: fixed;
-  top: -150px;
-  left: -150px;
-  width: 500px;
-  height: 500px;
-  background: #00f7ff;
-  filter: blur(250px);
-  opacity: 0.15;
-  z-index: -1;
+  display: none;
 }
 
-/* 🔴 Luz rosa */
 body::after {
   content: "";
   position: fixed;
@@ -91,12 +74,11 @@ h2 {
 
 .sidebar {
   width: 280px;
-  background: rgba(20,20,30,0.95);
+  background: #ffffff;
   padding: 25px;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
   height: fit-content;
 }
 
@@ -105,7 +87,7 @@ h2 {
   margin-bottom: 20px;
   font-size: 20px;
   letter-spacing: 1px;
-  color: gold;
+  color: #1a66cc;
 }
 
 .sidebar ul {
@@ -150,8 +132,8 @@ h2 {
 
 /* Ranking */
 .btn-ranking {
-  background: linear-gradient(135deg, #00f7ff, #ff0077);
-  color: white;
+  background: linear-gradient(135deg, #00f7ff, #ffffff);
+  color: rgb(0, 0, 0);
 }
 
 /* Logout */
@@ -165,11 +147,11 @@ h2 {
 /* ========================= */
 
 .card-admin {
-  background: rgba(30,30,40,0.95);
+  background: rgb(255, 255, 255);
   padding: 30px;
   margin-bottom: 25px;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgb(27, 22, 117);
   backdrop-filter: blur(15px);
   box-shadow: 0 10px 40px rgba(0,0,0,0.4);
   transition: 0.3s ease;
@@ -191,14 +173,14 @@ select {
   border: 1px solid rgba(255,255,255,0.1);
   width: 100%;
   background: rgba(255,255,255,0.05);
-  color: white;
+  color: rgb(0, 0, 0);
   outline: none;
   transition: 0.3s;
 }
 
 input:focus,
 select:focus {
-  border: 1px solid #00f7ff;
+  border: 1px solid #301879;
   box-shadow: 0 0 10px rgba(0,247,255,0.4);
 }
 
@@ -219,7 +201,7 @@ select {
 
 select option {
   background: #1c1c2e;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 /* ========================= */
@@ -235,7 +217,7 @@ button {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  background: linear-gradient(135deg, #d501ff);
+  background: linear-gradient(135deg, #6947ff);
   font-weight: bold;
   transition: 0.3s;
   margin-bottom: 10px;
@@ -243,7 +225,7 @@ button {
 
 button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(255, 255, 0, 0.634);
+  box-shadow: 0 8px 20px rgba(25, 0, 255, 0.634);
 }
 
 
@@ -620,7 +602,7 @@ margin-bottom:10px;
 }
 
 .linha-podio label{
-color:white;
+color:rgb(0, 0, 0);
 font-weight:600;
 min-width:180px;
 }
@@ -638,7 +620,7 @@ margin-bottom:10px;
 }
 
 .linha-estat label{
-color:white;
+color:rgb(0, 0, 0);
 font-weight:600;
 min-width:180px;
 }

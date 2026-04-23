@@ -1,17 +1,11 @@
 body {
   margin: 0;
   font-family: 'Segoe UI';
-  background: #3041ff;
-  color: rgb(0, 0, 0);
-  font-size: 14px; /* Força a mesma fonte que as outras telas */
+  background: #f5f5f5;
+  color: #1a1a1a;
+  font-size: 14px;
   text-align: center;
-
-   background-image: linear-gradient(rgba(0, 119, 255, 0.6), rgba(0,0,0,0.6)),
-   url("fundoplayer.png");
-  background-size: cover;       /* cobre toda tela */
-  background-position: center;  /* centraliza */
-  background-repeat: no-repeat; /* não repete */
-  background-attachment: fixed; /* efeito bonito */
+  min-height: 100vh;
 }
 
 
@@ -22,11 +16,11 @@ body {
 }
 
 .card{
-background:rgba(0, 0, 0, 0.885);
+background:#ffffff;
 padding:30px;
 border-radius:15px;
 margin-bottom:20px;
-}
+border: 1px solid #e0e0e0;}
 
 input{
 width:100%;
@@ -54,11 +48,12 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:14px;
-background:rgba(30,30,50,0.9);
+background:#ffffff;
 margin-bottom:10px;
 border-radius:12px;
-color:#ffffff;
+color:#1a1a1a;
 transition:0.3s;
+border: 1px solid #e0e0e0;
 }
 
 li:hover{

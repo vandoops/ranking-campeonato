@@ -1,378 +1,135 @@
 html, body{
-overflow-x: hidden;
+overflow-x:hidden;
 }
 
-/* ========================= */
-/* GLOBAL RANKING */
-/* ========================= */
-
-* {
-  box-sizing: border-box;
+*{
+box-sizing:border-box;
 }
 
-/* ========================= */
-/* fundo e cor de texto do ranking*/
-/* ========================= */
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
-  color: rgb(255, 255, 255);
-  text-align: center;
-
-  overflow-x: hidden; /* impede a tela de ir pro lado */
-
-  background:
-    linear-gradient(rgba(0, 109, 204, 0), rgb(0, 0, 0)),
-    url("fundoranking.png");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+body{
+margin:0;
+padding:0;
+min-height:100vh;
+font-family:'Segoe UI', sans-serif;
+color:#1a1a1a;
+text-align:center;
+background:#f5f5f5;
 }
 
-/* Luz azul */
-body::before {
-  content: "";
-  position: fixed;
-  top: -150px;
-  left: -150px;
-  width: 500px;
-  height: 500px;
-  background: #00f7ff;
-  filter: blur(250px);
-  opacity: 0.15;
-  z-index: -1;
+h1{
+font-size:42px;
+margin-top:40px;
+letter-spacing:2px;
 }
 
-/* Luz rosa */
-body::after {
-  content: "";
-  position: fixed;
-  bottom: -150px;
-  right: -150px;
-  width: 500px;
-  height: 500px;
-  background: #ff0077;
-  filter: blur(250px);
-  opacity: 0.12;
-  z-index: -1;
-}
-
-h1 {
-  font-size: 42px;
-  margin-top: 40px;
-  letter-spacing: 2px;
-}
-
-h2 {
-  margin-top: 60px;
-  margin-bottom: 30px;
-}
-
-/* ========================= */
-/* PÓDIO */
-/* ========================= */
-
-#podio{
-display:flex;
-justify-content:center;
-align-items:flex-end;
-gap:18px;
-margin-top:25px;
+h2{
+margin-top:60px;
 margin-bottom:30px;
 }
 
-/* caixa base */
-
-.podio-item{
-width:120px;
-border-radius:20px;
-text-align:center;
-padding:14px;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-gap:6px;
-font-weight:bold;
-
-position:relative;
-overflow:hidden;
-
-transition:0.3s;
-}
-.podio-item:hover{
-transform:translateY(-8px) scale(1.05);
-box-shadow:0 15px 35px rgba(0,0,0,0.6);
-}
-
-.podio-item::before{
-content:"";
-position:absolute;
-top:-50%;
-left:-50%;
-width:200%;
-height:200%;
-
-background:linear-gradient(
-120deg,
-transparent,
-rgba(255,255,255,0.4),
-transparent
-);
-
-transform:rotate(25deg);
-opacity:0;
-transition:0.5s;
-}
-
-.podio-item:hover::before{
-left:100%;
-opacity:1;
-}
-
-.podio-1{
-order:2;
-height:140px;
-background:linear-gradient(135deg,#e600ff,#ea00ff66);
-color:black;
-box-shadow:0 0 30px gold;
-
-animation: brilhoCampeao 2s infinite alternate;
-}
-
-@keyframes brilhoCampeao{
-
-0%{
-box-shadow:0 0 20px rgba(208, 0, 255, 0.518);
-}
-
-100%{
-box-shadow:0 0 45px rgb(221, 0, 255);
-}
-
-}
-
-/* alturas */
-
-.podio-1{
-order:2;
-height:140px;
-background:linear-gradient(135deg,#e600ff,#ea00ff66);
-color:black;
-box-shadow:0 0 30px gold;
-}
-
-.podio-2{
-order:1;
-height:110px;
-background:linear-gradient(135deg,#2a4dff,#2049ff71);
-color:black;
-}
-
-.podio-3{
-order:3;
-height:105px;
-background:linear-gradient(135deg,#3bc42c,#00ff087b);
-color:black;
-}
-
-/* medalha topo */
-
-.podio-item h3{
-font-size:26px;
-margin:0;
-}
-
-/* nome */
-
-.podio-item p{
-margin:0;
-font-size:18px;
-line-height:1.2;
-}
-
-/* medalhas pequenas */
-
-.podio-item span{
-font-size:13px;
-font-weight:normal;
-}
-
-.podio-item{
-cursor:pointer;
-}
-/* ========================= */
-/* GALERIA JOGADORES */
-/* ========================= */
-
-#galeria {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
-  padding: 0 20px 80px;
-}
-
-
-
-/* ========================= */
-/* box players da galera */
-/* ========================= */
-
-.player-box {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 30px;
-  border-radius: 20px;
-  width: 220px;
-  cursor: pointer;
-  transition: 0.3s;
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-}
-
-.player-box:hover {
-  transform: translateY(-8px);
-  background: linear-gradient(135deg,  #fbff00);
-  box-shadow: 0 0 25px rgba(0,255,255,0.6);
-}
-
-.player-box h3 {
-  margin: 0;
-  font-size: 20px;
-}
-
-/* ========================= */
-/* MODAL */
-/* ========================= */
-
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-  z-index: 999;
-}
-
-.modal-content {
-  background: white;
-  color: black;
-  padding: 40px 30px;
-  border-radius: 20px;
-  width: 350px;
-  max-width: 90%;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-}
-
-#fechar {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  cursor: pointer;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-/* ========================= */
-/* RESPONSIVO */
-/* ========================= */
-
-@media (max-width: 768px) {
-  h1 {
-    font-size: 28px;
-  }
-
-  #podio {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .podio-item {
-    width: 95%;
-  }
-
-  .player-box {
-    width: 95%;
-  }
-
-  
-  /* container já respeita menu.css */
+/* CONTAINER */
 .container{
 max-width:1200px;
 margin:auto;
 padding:20px;
 margin-top:90px;
 }
-}
-
 
 .ranking-container{
-display: flex;
-gap: 30px;
-justify-content: center;
-flex-wrap: wrap;
+display:flex;
+gap:30px;
+justify-content:center;
+flex-wrap:wrap;
 }
 
 .ranking-box{
-background: #111111d1;
-padding: 20px;
-border-radius: 10px;
-
-width: 100%;
-max-width: 520px;
-margin: 0 auto;
-margin-bottom: 50px;
+background:#fff;
+padding:20px;
+border-radius:10px;
+color:#1a1a1a;
+width:100%;
+max-width:520px;
+margin-bottom:50px;
+border:1px solid #e0e0e0;
 }
 
-.linha-ranking{
+/* TOP RANKING */
+#podio{
+display:none;
+}
+
+.ranking-top{
 display:flex;
-justify-content:space-between;
-padding:8px 0;
-border-bottom:1px solid rgba(255,255,255,0.1);
-}
-
-.menu-logo img {
-  height: 50px; /* ajusta a altura da logo */
-  width: auto;
-}
-
-
-.linha-ranking{
-display:flex;
-justify-content:space-between;
 align-items:center;
-padding:10px;
-border-bottom:1px solid #333;
+justify-content:space-between;
+padding:8px;
+margin-bottom:6px;
+cursor:pointer;
+transition:0.3s;
 }
 
-.zoeira{
-font-size:18px;
+.ranking-top:hover{
+transform:scale(1.01);
+}
+
+.numero{
+width:42px;
+font-size:28px;
+font-weight:900;
+text-align:center;
+}
+
+.nome-player{
+flex:1;
+font-size:20px;
+font-weight:900;
+text-transform:uppercase;
 margin-left:10px;
+text-align:left;
 }
 
+.medalhas-side{
+font-size:16px;
+font-weight:bold;
+display:flex;
+gap:6px;
+}
+
+.top1 .numero{
+background:#ffe600;
+padding:6px;
+}
+
+.top2 .numero{
+background:#f1f1f1;
+padding:6px;
+}
+
+.top3 .numero{
+background:#d8934d;
+padding:6px;
+}
+
+.ranking-resto{
+font-size:18px;
+font-weight:800;
+padding:4px 0;
+text-align:left;
+cursor:pointer;
+}
+
+.ranking-resto:hover{
+color:#d40055;
+padding-left:6px;
+}
+
+/* RANKING PONTOS */
 .linha-ranking{
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:10px;
-border-bottom:1px solid #333;
-}
-
-.lado-dir{
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-.zoeira{
-font-size:18px;
+border-bottom:1px solid rgba(0,0,0,0.1);
 }
 
 .lado-dir{
@@ -388,40 +145,96 @@ text-align:center;
 font-size:18px;
 }
 
+/* MSG ZOEIRA */
 .mensagem-zoeira{
-background:#11111100;
 padding:12px;
 margin-bottom:20px;
 border-radius:8px;
 text-align:center;
 font-weight:bold;
 font-size:16px;
-
 overflow-x:hidden;
 }
 
 .msg{
-white-space: nowrap;
+white-space:nowrap;
 margin:4px 0;
 }
 
-@media (max-width:768px){
-
-
-.mensagem-zoeira{
-overflow-x:auto;
-}
-.ranking-box{
-max-width:100%;
-}
-
-.mensagem-zoeira{
-font-size:14px;
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.75);
+justify-content:center;
+align-items:center;
+padding:40px;
+z-index:999;
 }
 
+.modal-content{
+background:#fff;
+color:#000;
+padding:40px 30px;
+border-radius:20px;
+width:350px;
+max-width:90%;
+text-align:center;
+position:relative;
+box-shadow:0 10px 40px rgba(0,0,0,0.5);
+}
+
+#fechar{
+position:absolute;
+top:15px;
+right:20px;
+cursor:pointer;
+font-size:26px;
+font-weight:bold;
 }
 
 img, video{
 max-width:100%;
 height:auto;
+}
+
+/* RESPONSIVO */
+@media(max-width:768px){
+
+h1{
+font-size:28px;
+}
+
+.ranking-box{
+max-width:100%;
+}
+
+.numero{
+width:36px;
+font-size:22px;
+}
+
+.nome-player{
+font-size:16px;
+}
+
+.medalhas-side{
+font-size:13px;
+gap:4px;
+}
+
+.ranking-resto{
+font-size:15px;
+}
+
+.mensagem-zoeira{
+font-size:14px;
+overflow-x:auto;
+}
+
+.msg{
+white-space:normal;
+}
+
 }

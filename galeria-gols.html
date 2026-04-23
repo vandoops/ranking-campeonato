@@ -7,7 +7,7 @@
 <title>Galeria de Gols</title>
 
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="menu.css">
+<link rel="stylesheet" href="header.css">
 <link rel="stylesheet" href="gols.css">
 
 
@@ -15,22 +15,40 @@
 
 <body>
 
-<!-- MENU SUPERIOR -->
-<nav class="menu-topo">
-  <div class="menu-esquerda">
-    <div class="menu-logo">
-  <img src="logopng.png" alt="Logo da equipe" class="logo-img">
-</div>
-    <div class="menu-links">
-      <a href="index.html">🏆 Ranking</a>
-      <a href="galeria.html">📸 Galeria de fotos</a>
-      <a href="galeria-gols.html">⚽Galeria de Gols</a>
-      <a href="regras.html">📜 Regras</a>
-      
+<!-- HEADER BANNER -->
+<div class="header-banner">
+  <div class="banner-stripe"></div>
+  <div class="header-content">
+    <div class="header-left">
+      <div class="menu-hamburger" role="button" aria-label="Abrir menu">&#9776;</div>
+      <div class="menu-abas">
+        <a href="home.html" class="aba">HOME</a>
+        <a href="index.html" class="aba">RANKING</a>
+        <a href="galeria.html" class="aba">FOTOS CAMPEONATO</a>
+        <a href="galeria-gols.html" class="aba aba-active">GALERIA DE GOLS</a>
+        <a href="admin.html" class="aba">ADMIN</a>
+        <a href="players.html" class="aba">PLAYERS</a>
+        <a href="regras.html" class="aba">REGRAS</a>
+      </div>
+    </div>
+    <div class="header-right">
+      <img src="logopng.png" alt="Logo Copa Bruxaria" class="header-logo-container">
     </div>
   </div>
-<div class="menu-hamburger">&#9776;</div> <!-- ícone hamburger -->
-</nav>
+  <div class="banner-pink"></div>
+</div>
+
+<script>
+  // Proteção para admin e players
+  document.querySelectorAll('.menu-abas a[href="admin.html"], .menu-abas a[href="players.html"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      if(localStorage.getItem('bruxaria_logado') !== 'true') {
+        e.preventDefault();
+        window.location.href = 'login.html';
+      }
+    });
+  });
+</script>
 
 <h1 style="text-align:center;margin-top:30px;">⚽ Galeria de Gols</h1>
 
@@ -102,12 +120,28 @@ galeria.appendChild(card);
 
 <script>
   const hamburger = document.querySelector('.menu-hamburger');
-  const menuLinks = document.querySelector('.menu-links');
-
-  hamburger.addEventListener('click', () => {
-    menuLinks.classList.toggle('active'); // abre e fecha o menu
-  });
+  const menuAbas = document.querySelector('.menu-abas');
+  if (hamburger && menuAbas) {
+    hamburger.addEventListener('click', () => {
+      menuAbas.classList.toggle('active'); // abre e fecha o menu
+    });
+  }
 </script>
 
+<script>
+(function(){
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.menu-links a, .menu-abas a').forEach(a=>{
+    const href = a.getAttribute('href');
+    if(href === path || (href === 'home.html' && (path === '' || path === ''))){
+      a.classList.add('selected');
+      a.classList.add('aba-active');
+    } else {
+      a.classList.remove('selected');
+      a.classList.remove('aba-active');
+    }
+  });
+})();
+</script>
 </body>
 </html>
