@@ -74,9 +74,36 @@
 /* MENU ABAS */
 .menu-abas {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.menu-left {
+  display: flex;
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.menu-right {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Botões de Admin/Players com destaque especial */
+.aba-admin {
+  background-color: var(--secondary-pink);
+  border-color: var(--secondary-pink);
+  color: var(--white);
+}
+
+.aba-admin:hover {
+  background-color: var(--accent-yellow);
+  border-color: var(--accent-yellow);
+  color: var(--text-dark);
 }
 
 .aba {

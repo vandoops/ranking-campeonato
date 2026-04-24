@@ -1,6 +1,7 @@
 const CACHE_NAME = "bruxaria-cache-v1";
 const urlsToCache = [
-  "/", 
+  "/",
+  "/index.html",
   "/ranking.html", 
   "/galeria.html", 
   "/style-ranking.css", 

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Ranking</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="logopng.png" type="image/png">
+
+<link rel="stylesheet" href="header.css">
+<link rel="stylesheet" href="style-ranking.css">
+
+<!-- manifest -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="logopng.png">
+<link rel="apple-touch-icon" href="logopng.png">
+
+<link rel="icon" type="image/png" href="logopng.png">
+<link rel="apple-touch-icon" href="logopng.png">
+
+
+</head>
+
+<body>
+
+
+  <!-- HEADER BANNER -->
+  <div class="header-banner">
+    <div class="banner-stripe"></div>
+    <div class="header-content">
+      <div class="header-left">
+        <div class="menu-hamburger" role="button" aria-label="Abrir menu">&#9776;</div>
+        <div class="menu-abas">
+          <div class="menu-left">
+            <a href="index.html" class="aba">HOME</a>
+            <a href="ranking.html" class="aba aba-active">RANKING</a>
+            <a href="galeria.html" class="aba">FOTOS CAMPEONATO</a>
+            <a href="galeria-gols.html" class="aba">GALERIA DE GOLS</a>
+            <a href="regras.html" class="aba">REGRAS</a>
+          </div>
+          <div class="menu-right">
+            <a href="admin.html" class="aba aba-admin">ADMIN</a>
+            <a href="players.html" class="aba aba-admin">PLAYERS</a>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <img src="logopng.png" alt="Logo Copa Bruxaria" class="header-logo-container">
+      </div>
+    </div>
+    <div class="banner-pink"></div>
+  </div>
+
+  <script>
+    // Proteção para admin e players
+    document.querySelectorAll('.menu-abas a[href="admin.html"], .menu-abas a[href="players.html"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if(localStorage.getItem('bruxaria_logado') !== 'true') {
+          e.preventDefault();
+          window.location.href = 'login.html';
+        }
+      });
+    });
+  </script>
+
+ <div class="container">
+<h1>Ranking Bruxaria EC</h1>
+
+<div class="ranking-container">
+
+<div class="ranking-box">
+
+<h2>Maiores Medalhistas</h2>
+
+<div id="podio"></div>
+
+<div id="rankingMedalhas"></div>
+
+</div>
+
+
+<div class="ranking-box">
+<h2>Maiores Pontuadores</h2>
+
+<div id="mensagemZoeira" class="mensagem-zoeira"></div>
+
+<div id="rankingPontos"></div>
+</div>
+
+
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+<div class="modal-content">
+<span id="fechar">&times;</span>
+<div id="detalhes"></div>
+</div>
+</div>
+</div>
+
+
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "SUA_API_KEY",
+authDomain: "ranking-campeoes.firebaseapp.com",
+projectId: "ranking-campeoes",
+storageBucket: "ranking-campeoes.firebasestorage.app",
+messagingSenderId: "1049217546195",
+appId: "1:1049217546195:web:6a10959a84949e3456e126"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const podio = document.getElementById("podio");
+const galeria = document.getElementById("galeria");
+const modal = document.getElementById("modal");
+const detalhes = document.getElementById("detalhes");
+let stats = {};
+
+document.getElementById("fechar").onclick = () => modal.style.display = "none";
+
+onSnapshot(collection(db, "campeonatos"), (snap) => {
+
+stats = {};
+
+snap.forEach(docSnap => {
+
+const data = docSnap.data();
+
+["primeiro","segundo","terceiro"].forEach(pos => {
+
+const nome = data[pos];
+
+if(!nome) return;
+
+if(!stats[nome]){
+stats[nome] = {
+primeiro:0,
+segundo:0,
+terceiro:0,
+pontos:0
+};
+}
+
+stats[nome][pos]++;
+
+/* pontos */
+if(pos === "primeiro") stats[nome].pontos += 3;
+if(pos === "segundo") stats[nome].pontos += 1;
+
+});
+
+});
+
+
+/* ================= MEDALHAS ================= */
+
+const rankingMedalhas = Object.entries(stats).sort((a,b)=>{
+
+const pontosA =
+(a[1].primeiro * 5) +
+(a[1].segundo * 3) +
+(a[1].terceiro * 1);
+
+const pontosB =
+(b[1].primeiro * 5) +
+(b[1].segundo * 3) +
+(b[1].terceiro * 1);
+
+return pontosB - pontosA;
+
+});
+
+
+/* ================= PONTOS ================= */
+
+
+
+
+/* ================= MOSTRAR ================= */
+
+const divMedalhas = document.getElementById("rankingMedalhas");
+const divPontos = document.getElementById("rankingPontos");
+
+divMedalhas.innerHTML = "";
+divPontos.innerHTML = "";
+
+/* ================= PODIO ================= */
+
+const podioDiv = document.getElementById("podio");
+
+if(rankingMedalhas.length >= 3){
+
+const primeiro = rankingMedalhas[0];
+const segundo = rankingMedalhas[1];
+const terceiro = rankingMedalhas[2];
+
+podioDiv.innerHTML = `
+
+<div class="podio-item podio-2" onclick="abrirPlayer('${segundo[0]}')">
+<h3>🥈</h3>
+<p>${segundo[0]}</p>
+<span>
+🥇 ${segundo[1].primeiro}
+🥈 ${segundo[1].segundo}
+🥉 ${segundo[1].terceiro}
+</span>
+</div>
+
+<div class="podio-item podio-1" onclick="abrirPlayer('${primeiro[0]}')">
+<h3>🥇</h3>
+<p>${primeiro[0]}</p>
+<span>
+🥇 ${primeiro[1].primeiro}
+🥈 ${primeiro[1].segundo}
+🥉 ${primeiro[1].terceiro}
+</span>
+</div>
+
+<div class="podio-item podio-3" onclick="abrirPlayer('${terceiro[0]}')">
+<h3>🥉</h3>
+<p>${terceiro[0]}</p>
+<span>
+🥇 ${terceiro[1].primeiro}
+🥈 ${terceiro[1].segundo}
+🥉 ${terceiro[1].terceiro}
+</span>
+</div>
+
+`;
+
+}
+
+divMedalhas.innerHTML = "";
+
+/* TOP 3 */
+
+rankingMedalhas.slice(0,3).forEach((p,i)=>{
+
+let classe = "";
+let posicao = "";
+
+if(i === 0){ classe = "top1"; posicao = "1º"; }
+if(i === 1){ classe = "top2"; posicao = "2º"; }
+if(i === 2){ classe = "top3"; posicao = "3º"; }
+
+divMedalhas.innerHTML += `
+<div class="ranking-top ${classe}" onclick="abrirPlayer('${p[0]}')">
+
+<div class="numero">${posicao}</div>
+
+<div class="nome-player">${p[0]}</div>
+
+<div class="medalhas-side">
+🥇 ${p[1].primeiro}
+🥈 ${p[1].segundo}
+🥉 ${p[1].terceiro}
+</div>
+
+</div>
+`;
+
+});
+
+/* RESTANTE */
+
+rankingMedalhas.slice(3).forEach((p,i)=>{
+
+divMedalhas.innerHTML += `
+<div class="ranking-resto" onclick="abrirPlayer('${p[0]}')">
+${i+4}º ${p[0]}
+</div>
+`;
+
+});
+
+
+
+
+});
+
+
+onSnapshot(collection(db, "pontuacoes"), (snap) => {
+
+const divPontos = document.getElementById("rankingPontos");
+divPontos.innerHTML = "";
+
+const ranking = {};
+
+snap.forEach(doc => {
+
+const data = doc.data();
+
+const pontos = Number(data.pontos) || 0;
+
+if(!ranking[data.player]){
+ranking[data.player] = 0;
+}
+
+ranking[data.player] = pontos;
+
+});
+
+const lista = Object.entries(ranking)
+.sort((a,b)=> b[1] - a[1]);
+
+if(lista.length > 0){
+
+const lider = lista[0][0];
+const vice = lista[1] ? lista[1][0] : "";
+const viceLanterna = lista[lista.length-2] ? lista[lista.length-2][0] : "";
+const lanterna = lista[lista.length-1][0];
+
+document.getElementById("mensagemZoeira").innerHTML =
+`<div class="msg">👑 ${lider} Deve estar usando magia negra." 😆 </div>
+<div class="msg">🔥 ${vice} Tá só esperando o líder errar a poção." 🧪</div>
+<div class="msg">⚠️ ${viceLanterna} A magia desse aqui tá vencida." ⚠️</div>
+<div class="msg">🐢 ${lanterna} Nem com magia negra tá funcionando.</div>`;
+
+}
+
+lista.forEach((p,i)=>{
+
+let zoeira = "";
+
+if(i === 0){
+zoeira = "👑";
+}
+
+if(i === 1){
+zoeira = "🔥";
+}
+
+if(i === lista.length - 2){
+zoeira = "⚠️";
+}
+
+if(i === lista.length - 1){
+zoeira = "🐢";
+}
+
+divPontos.innerHTML += `
+<div class="linha-ranking">
+
+<div class="lado-esq">
+${i+1}º ${p[0]}
+</div>
+
+<div class="lado-dir">
+${p[1]} pts
+<span class="zoeira">${zoeira || ""}</span>
+</div>
+
+</div>
+`;
+
+});
+
+});
+
+window.abrirPlayer = function(nome){
+
+const data = stats[nome];
+
+detalhes.innerHTML = `
+<h2>${nome}</h2>
+
+<p>🥇 Primeiros lugares: ${data.primeiro}</p>
+<p>🥈 Segundos lugares: ${data.segundo}</p>
+<p>🥉 Terceiros lugares: ${data.terceiro}</p>
+
+<p>⭐ Total de medalhas: ${
+data.primeiro + data.segundo + data.terceiro
+}</p>
+`;
+
+modal.style.display = "flex";
+
+}
+
+</script>
+
+<!-- manifest apk -->
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("SW registrado"));
+}
+</script>
+
+<script>
+  const hamburger = document.querySelector('.menu-hamburger');
+  const menuAbas = document.querySelector('.menu-abas');
+  if (hamburger && menuAbas) {
+    hamburger.addEventListener('click', () => {
+      menuAbas.classList.toggle('active');
+    });
+  }
+</script>
+
+<script>
+(function(){
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.menu-links a, .menu-abas a').forEach(a=>{
+    const href = a.getAttribute('href');
+    if(href === path || (href === 'index.html' && (path === '' || path === ''))){
+      a.classList.add('selected');
+      a.classList.add('aba-active');
+    } else {
+      a.classList.remove('selected');
+      a.classList.remove('aba-active');
+    }
+  });
+})();
+</script>
+</body>
+</html>
