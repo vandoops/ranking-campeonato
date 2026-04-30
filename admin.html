@@ -128,6 +128,8 @@ window.location.href = "login.html";
 
 <h3>⚽ Pontuação Players</h3>
 
+<button id="importarArena">IMPORTAR DO ARENA</button>
+
 <label>Player</label>
 <select id="playerPontuacao"></select>
 
@@ -242,7 +244,7 @@ const playerPontuacao = document.getElementById("playerPontuacao");
 
 onSnapshot(collection(db, "players"), (snap) => {
 
-playerPontuacao.innerHTML = "";
+playerPontuacao.innerHTML = `<option value="" selected disabled>Selecione um player</option>`;
 
 snap.forEach(docSnap => {
 
@@ -457,6 +459,11 @@ console.log(rankingFinal);
 document.getElementById("salvarPontuacao").onclick = async () => {
 
 const player = document.getElementById("playerPontuacao").value;
+
+if (!player) {
+  alert("Selecione um player!");
+  return;
+}
 const pontos = Number(document.getElementById("pontos").value);
 
 const snap = await getDocs(collection(db,"pontuacoes"));
@@ -562,6 +569,73 @@ setaPontuacoes.textContent = aberto ? "▼" : "▲";
 
 };
 
+document.getElementById("importarArena").onclick = async () => {
+
+  const texto = prompt("Cole aqui o ranking (copiado do site)");
+
+  if (!texto) return;
+
+  const linhas = texto.split("\n");
+
+  let dados = [];
+
+ linhas.forEach(linha => {
+
+  const colunas = linha.split("\t");
+
+  if (colunas.length >= 3) {
+
+    let nome = colunas[1].replace("-", "").trim();
+    let pontos = Number(colunas[2]);
+
+    if (nome && !isNaN(pontos)) {
+      dados.push({
+        nome: nome,
+        pontos: pontos
+      });
+    }
+
+  }
+
+});
+
+  if (dados.length === 0) {
+    alert("Não deu certo, copia o ranking inteiro.");
+    return;
+  }
+
+  const snap = await getDocs(collection(db,"pontuacoes"));
+
+  for (let dado of dados) {
+
+    let encontrado = null;
+
+    snap.forEach(docSnap => {
+      if(docSnap.data().player.toLowerCase() === dado.nome.toLowerCase()){
+        encontrado = docSnap;
+      }
+    });
+
+    if(encontrado){
+
+      await updateDoc(doc(db,"pontuacoes", encontrado.id), {
+        pontos: dado.pontos
+      });
+
+    } else {
+
+      await addDoc(collection(db,"pontuacoes"), {
+        player: dado.nome,
+        pontos: dado.pontos,
+        data: serverTimestamp()
+      });
+
+    }
+
+  }
+
+  alert("Ranking atualizado!");
+};
 </script>
 
 <script>
@@ -618,5 +692,7 @@ $('#playerPontuacao').select2();
   });
 })();
 </script>
+
+
 </body>
 </html>
