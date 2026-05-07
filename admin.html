@@ -6,8 +6,22 @@
 <title>Admin</title>
 
 <link rel="icon" href="logopng.png" type="image/png">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2.1">
 <link rel="stylesheet" href="header.css">
+
+<style>
+  /* Estilos inline do editor de regras para garantir aplicação */
+  .card-editar-regras-container {
+    background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%) !important;
+    border: 2px solid #1a66cc !important;
+    border-radius: 16px !important;
+    padding: 0 !important;
+    margin: 40px auto !important;
+    max-width: 1000px !important;
+    box-shadow: 0 8px 32px rgba(26, 102, 204, 0.15) !important;
+    overflow: hidden !important;
+  }
+</style>
 
 
 
@@ -164,8 +178,126 @@ window.location.href = "login.html";
 <h3>Campeonatos bruxaria</h3>
 <div id="listaTitulos"></div>
 
+<hr>
+
+<div class="card-editar-regras-container">
+  <div class="regras-header">
+    <h2>📝 Editor de Regras</h2>
+    <p class="regras-subtitle">Edite as regras do campeonato que serão exibidas para todos os jogadores</p>
+  </div>
+
+  <div class="regras-editor-box">
+    <div class="regras-toolbar">
+      <button class="btn-toolbar" id="btnLimparRegras" title="Limpar tudo">🗑️ Limpar</button>
+      <button class="btn-toolbar" id="btnCopiarRegras" title="Copiar texto">📋 Copiar</button>
+      <span class="regras-counter">
+        <span id="charCount">0</span> / 5000 caracteres
+      </span>
+    </div>
+
+    <textarea id="textareaRegras" class="regras-textarea" placeholder="✏️ Digite as regras do campeonato aqui...
+
+💡 Dica: Use quebras de linha para organizar melhor
+As regras serão exibidas formatadas na página de Regras.
+
+📌 Exemplo:
+1. Inscrição: R$ 2,00 via PIX
+2. Formato: Fase de grupos + mata-mata
+3. Prazos: Cada rodada tem 1 dia de prazo
+..."></textarea>
+
+    <div class="regras-actions">
+      <button id="salvarRegras" class="btn-salvar-regras">💾 Salvar Regras</button>
+      <div id="mensagemRegras" class="regras-feedback"></div>
+    </div>
+  </div>
+</div>
+
 </main>
 </div>
+
+<script>
+// Editor de Regras com funcionalidades
+document.addEventListener('DOMContentLoaded', () => {
+  const textareaRegras = document.getElementById('textareaRegras');
+  const salvarBtn = document.getElementById('salvarRegras');
+  const mensagemRegras = document.getElementById('mensagemRegras');
+  const charCount = document.getElementById('charCount');
+  const btnLimpar = document.getElementById('btnLimparRegras');
+  const btnCopiar = document.getElementById('btnCopiarRegras');
+  
+  // Função para atualizar contador
+  const atualizarContador = () => {
+    charCount.textContent = textareaRegras.value.length;
+    if (textareaRegras.value.length > 5000) {
+      textareaRegras.value = textareaRegras.value.substring(0, 5000);
+    }
+  };
+  
+  // Carregar regras do localStorage
+  const regrasSalvas = localStorage.getItem('bruxaria_regras');
+  if (regrasSalvas) {
+    textareaRegras.value = regrasSalvas;
+    atualizarContador();
+  }
+  
+  // Atualizar contador enquanto digita
+  textareaRegras.addEventListener('input', atualizarContador);
+  
+  // Limpar regras
+  btnLimpar.addEventListener('click', () => {
+    if (confirm('⚠️ Tem certeza que deseja limpar tudo?')) {
+      textareaRegras.value = '';
+      atualizarContador();
+      mensagemRegras.innerHTML = '<span class="feedback-info">🗑️ Texto limpo!</span>';
+      setTimeout(() => { mensagemRegras.innerHTML = ''; }, 2000);
+    }
+  });
+  
+  // Copiar texto
+  btnCopiar.addEventListener('click', () => {
+    if (textareaRegras.value.trim()) {
+      navigator.clipboard.writeText(textareaRegras.value).then(() => {
+        mensagemRegras.innerHTML = '<span class="feedback-success">📋 Copiado para área de transferência!</span>';
+        setTimeout(() => { mensagemRegras.innerHTML = ''; }, 2000);
+      });
+    } else {
+      mensagemRegras.innerHTML = '<span class="feedback-error">❌ Nada para copiar!</span>';
+      setTimeout(() => { mensagemRegras.innerHTML = ''; }, 2000);
+    }
+  });
+  
+  // Salvar regras
+  salvarBtn.addEventListener('click', () => {
+    const regrasTexto = textareaRegras.value.trim();
+    
+    if (!regrasTexto) {
+      mensagemRegras.innerHTML = '<span class="feedback-error">❌ Por favor, digite as regras!</span>';
+      textareaRegras.focus();
+      textareaRegras.classList.add('shake');
+      setTimeout(() => textareaRegras.classList.remove('shake'), 500);
+      return;
+    }
+    
+    localStorage.setItem('bruxaria_regras', regrasTexto);
+    mensagemRegras.innerHTML = '<span class="feedback-success">✅ Regras salvas com sucesso! 🎉</span>';
+    salvarBtn.classList.add('btn-success');
+    
+    setTimeout(() => {
+      mensagemRegras.innerHTML = '';
+      salvarBtn.classList.remove('btn-success');
+    }, 3000);
+  });
+  
+  // Salvar ao pressionar Ctrl+S
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      salvarBtn.click();
+    }
+  });
+});
+</script>
 
 <script type="module">
 
