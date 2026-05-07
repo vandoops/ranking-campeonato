@@ -188,23 +188,23 @@ window.location.href = "login.html";
 
   <div class="regras-editor-box">
     <div class="regras-toolbar">
-      <button class="btn-toolbar" id="btnLimparRegras" title="Limpar tudo">🗑️ Limpar</button>
-      <button class="btn-toolbar" id="btnCopiarRegras" title="Copiar texto">📋 Copiar</button>
+      <div class="regras-toolbar-group">
+        <button class="btn-toolbar btn-format" id="btnNegrito" title="Negrito (Ctrl+B)"><strong>N</strong></button>
+        <button class="btn-toolbar btn-format" id="btnItálico" title="Itálico (Ctrl+I)"><em>I</em></button>
+        <button class="btn-toolbar btn-format" id="btnSublinhado" title="Sublinhado (Ctrl+U)"><u>U</u></button>
+      </div>
+      
+      <div class="regras-toolbar-group">
+        <button class="btn-toolbar" id="btnLimparRegras" title="Limpar tudo">🗑️ Limpar</button>
+        <button class="btn-toolbar" id="btnCopiarRegras" title="Copiar texto">📋 Copiar</button>
+      </div>
+
       <span class="regras-counter">
         <span id="charCount">0</span> / 5000 caracteres
       </span>
     </div>
 
-    <textarea id="textareaRegras" class="regras-textarea" placeholder="✏️ Digite as regras do campeonato aqui...
-
-💡 Dica: Use quebras de linha para organizar melhor
-As regras serão exibidas formatadas na página de Regras.
-
-📌 Exemplo:
-1. Inscrição: R$ 2,00 via PIX
-2. Formato: Fase de grupos + mata-mata
-3. Prazos: Cada rodada tem 1 dia de prazo
-..."></textarea>
+    <div id="editorRegras" class="regras-editor-text" contenteditable="true" role="textbox" aria-label="Editor de regras"></div>
 
     <div class="regras-actions">
       <button id="salvarRegras" class="btn-salvar-regras">💾 Salvar Regras</button>
@@ -217,47 +217,115 @@ As regras serão exibidas formatadas na página de Regras.
 </div>
 
 <script>
-// Editor de Regras com funcionalidades
+// Editor de Regras com Formatação
 document.addEventListener('DOMContentLoaded', () => {
-  const textareaRegras = document.getElementById('textareaRegras');
+  const editor = document.getElementById('editorRegras');
   const salvarBtn = document.getElementById('salvarRegras');
   const mensagemRegras = document.getElementById('mensagemRegras');
   const charCount = document.getElementById('charCount');
   const btnLimpar = document.getElementById('btnLimparRegras');
   const btnCopiar = document.getElementById('btnCopiarRegras');
   
+  // Botões de formatação
+  const btnNegrito = document.getElementById('btnNegrito');
+  const btnItálico = document.getElementById('btnItálico');
+  const btnSublinhado = document.getElementById('btnSublinhado');
+  
   // Função para atualizar contador
   const atualizarContador = () => {
-    charCount.textContent = textareaRegras.value.length;
-    if (textareaRegras.value.length > 5000) {
-      textareaRegras.value = textareaRegras.value.substring(0, 5000);
+    const texto = editor.innerText;
+    charCount.textContent = texto.length;
+    if (texto.length > 5000) {
+      // Remover últimos caracteres se exceder
+      const nodes = editor.childNodes;
+      let totalChars = 0;
+      for (let i = 0; i < nodes.length; i++) {
+        totalChars += nodes[i].textContent.length;
+        if (totalChars > 5000) {
+          nodes[i].remove();
+          i--;
+          totalChars = Array.from(editor.innerText).length;
+        }
+      }
     }
   };
   
   // Carregar regras do localStorage
   const regrasSalvas = localStorage.getItem('bruxaria_regras');
   if (regrasSalvas) {
-    textareaRegras.value = regrasSalvas;
+    editor.innerHTML = regrasSalvas;
     atualizarContador();
+  } else {
+    editor.innerHTML = '<p style="color: #a0aec0; font-style: italic;">✏️ Digite as regras do campeonato aqui...</p>';
   }
   
+  // Focar no editor e remover placeholder
+  editor.addEventListener('click', () => {
+    if (editor.innerHTML.includes('Digite as regras')) {
+      editor.innerHTML = '';
+    }
+  });
+  
   // Atualizar contador enquanto digita
-  textareaRegras.addEventListener('input', atualizarContador);
+  editor.addEventListener('input', atualizarContador);
+  
+  // Botões de formatação
+  btnNegrito.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.execCommand('bold', false, null);
+    editor.focus();
+    btnNegrito.classList.toggle('btn-active');
+  });
+  
+  btnItálico.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.execCommand('italic', false, null);
+    editor.focus();
+    btnItálico.classList.toggle('btn-active');
+  });
+  
+  btnSublinhado.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.execCommand('underline', false, null);
+    editor.focus();
+    btnSublinhado.classList.toggle('btn-active');
+  });
+  
+  // Atalhos de teclado
+  editor.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === 'b') {
+        e.preventDefault();
+        btnNegrito.click();
+      } else if (e.key === 'i') {
+        e.preventDefault();
+        btnItálico.click();
+      } else if (e.key === 'u') {
+        e.preventDefault();
+        btnSublinhado.click();
+      } else if (e.key === 's') {
+        e.preventDefault();
+        salvarBtn.click();
+      }
+    }
+  });
   
   // Limpar regras
   btnLimpar.addEventListener('click', () => {
     if (confirm('⚠️ Tem certeza que deseja limpar tudo?')) {
-      textareaRegras.value = '';
+      editor.innerHTML = '';
       atualizarContador();
       mensagemRegras.innerHTML = '<span class="feedback-info">🗑️ Texto limpo!</span>';
       setTimeout(() => { mensagemRegras.innerHTML = ''; }, 2000);
+      editor.focus();
     }
   });
   
   // Copiar texto
   btnCopiar.addEventListener('click', () => {
-    if (textareaRegras.value.trim()) {
-      navigator.clipboard.writeText(textareaRegras.value).then(() => {
+    const texto = editor.innerText.trim();
+    if (texto && !texto.includes('Digite as regras')) {
+      navigator.clipboard.writeText(texto).then(() => {
         mensagemRegras.innerHTML = '<span class="feedback-success">📋 Copiado para área de transferência!</span>';
         setTimeout(() => { mensagemRegras.innerHTML = ''; }, 2000);
       });
@@ -269,17 +337,19 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Salvar regras
   salvarBtn.addEventListener('click', () => {
-    const regrasTexto = textareaRegras.value.trim();
+    const regrasHTML = editor.innerHTML.trim();
+    const regrasTexto = editor.innerText.trim();
     
-    if (!regrasTexto) {
+    if (!regrasTexto || regrasTexto.includes('Digite as regras')) {
       mensagemRegras.innerHTML = '<span class="feedback-error">❌ Por favor, digite as regras!</span>';
-      textareaRegras.focus();
-      textareaRegras.classList.add('shake');
-      setTimeout(() => textareaRegras.classList.remove('shake'), 500);
+      editor.focus();
+      editor.classList.add('shake');
+      setTimeout(() => editor.classList.remove('shake'), 500);
       return;
     }
     
-    localStorage.setItem('bruxaria_regras', regrasTexto);
+    localStorage.setItem('bruxaria_regras', regrasHTML);
+    localStorage.setItem('bruxaria_regras_texto', regrasTexto);
     mensagemRegras.innerHTML = '<span class="feedback-success">✅ Regras salvas com sucesso! 🎉</span>';
     salvarBtn.classList.add('btn-success');
     
@@ -289,12 +359,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   });
   
-  // Salvar ao pressionar Ctrl+S
-  document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault();
-      salvarBtn.click();
-    }
+  // Prevenir tags perigosas
+  editor.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const texto = e.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, texto);
   });
 });
 </script>

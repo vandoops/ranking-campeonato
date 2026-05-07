@@ -36,13 +36,30 @@
       font-size: 16px;
       line-height: 1.8;
       color: #333;
-      white-space: pre-wrap;
       word-wrap: break-word;
       text-align: justify;
     }
 
-    .regras-text p {
+    .regras-text p,
+    .regras-text div {
       margin-bottom: 15px;
+    }
+
+    .regras-text strong,
+    .regras-text b {
+      font-weight: bold;
+      color: #1a1a1a;
+    }
+
+    .regras-text em,
+    .regras-text i {
+      font-style: italic;
+      color: #333;
+    }
+
+    .regras-text u {
+      text-decoration: underline;
+      color: #333;
     }
 
     .regras-vazio {
@@ -108,11 +125,15 @@
       const regrasSalvas = localStorage.getItem('bruxaria_regras');
       
       if (regrasSalvas) {
-        // Dividir o texto em parágrafos e formatar
-        const paragrafos = regrasSalvas.split('\n').filter(p => p.trim());
-        regrasContainer.innerHTML = paragrafos
-          .map(p => `<p>${p.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`)
-          .join('');
+        // Exibir HTML formatado (com negrito, itálico, etc)
+        regrasContainer.innerHTML = regrasSalvas;
+        
+        // Adicionar estilo de parágrafo se não tiver
+        regrasContainer.querySelectorAll('text, p, div').forEach(el => {
+          if (!el.querySelector('*')) {
+            el.style.marginBottom = '15px';
+          }
+        });
       } else {
         regrasContainer.innerHTML = '<div class="regras-vazio">📋 As regras do campeonato ainda não foram definidas.<br><br>Por favor, aguarde a configuração pelo administrador.</div>';
       }
