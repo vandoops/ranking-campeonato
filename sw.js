@@ -31,7 +31,28 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(resp => resp || fetch(event.request))
-  );
+  const url = new URL(event.request.url);
+  
+  // Para arquivos HTML (regras, galeria, etc), usa "network first"
+  if (event.request.url.endsWith('.html')) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          if (response.ok) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseClone);
+            });
+            return response;
+          }
+          return caches.match(event.request) || response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+  } else {
+    // Para CSS, imagens e outros recursos, usa "cache first"
+    event.respondWith(
+      caches.match(event.request).then(resp => resp || fetch(event.request))
+    );
+  }
 });
