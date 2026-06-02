@@ -226,6 +226,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnLimpar = document.getElementById('btnLimparRegras');
   const btnCopiar = document.getElementById('btnCopiarRegras');
   
+  // Configuração Firebase para salvar regras globalmente
+  const firebaseConfig = {
+    apiKey: "SUA_API_KEY",
+    authDomain: "ranking-campeoes.firebaseapp.com",
+    projectId: "ranking-campeoes",
+    storageBucket: "ranking-campeoes.firebasestorage.app",
+    messagingSenderId: "1049217546195",
+    appId: "1:1049217546195:web:6a10959a84949e3456e126"
+  };
+
+  let firestoreReady = null;
+  let firestoreDb = null;
+  let firestoreDoc = null;
+  let firestoreSetDoc = null;
+  let firestoreServerTimestamp = null;
+
+  firestoreReady = import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js')
+    .then(({ initializeApp }) => {
+      return import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js')
+        .then((firestore) => {
+          const app = initializeApp(firebaseConfig);
+          firestoreDb = firestore.getFirestore(app);
+          firestoreDoc = firestore.doc;
+          firestoreSetDoc = firestore.setDoc;
+          firestoreServerTimestamp = firestore.serverTimestamp;
+        });
+    })
+    .catch((error) => {
+      console.warn('Firebase não disponível no admin:', error);
+    });
+
   // Botões de formatação
   const btnNegrito = document.getElementById('btnNegrito');
   const btnItálico = document.getElementById('btnItálico');
@@ -351,13 +382,14 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('bruxaria_regras', regrasHTML);
     localStorage.setItem('bruxaria_regras_texto', regrasTexto);
 
+    await firestoreReady;
     let salvaServidor = true;
-    if (window.firestoreSetDoc && window.firestoreDoc && window.firestoreDb && window.firestoreServerTimestamp) {
+    if (firestoreSetDoc && firestoreDoc && firestoreDb && firestoreServerTimestamp) {
       try {
-        await window.firestoreSetDoc(window.firestoreDoc(window.firestoreDb, 'config', 'regras'), {
+        await firestoreSetDoc(firestoreDoc(firestoreDb, 'config', 'regras'), {
           html: regrasHTML,
           texto: regrasTexto,
-          updated: window.firestoreServerTimestamp()
+          updated: firestoreServerTimestamp()
         });
       } catch (error) {
         salvaServidor = false;
@@ -919,7 +951,12 @@ $('#playerPontuacao').select2();
   });
 })();
 </script>
-
-
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('SW registrado em admin.html:', reg.scope))
+      .catch(err => console.warn('Falha ao registrar SW em admin.html:', err));
+  }
+</script>
 </body>
 </html>

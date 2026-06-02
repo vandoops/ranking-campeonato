@@ -1,4 +1,4 @@
-const CACHE_NAME = "bruxaria-cache-v1";
+const CACHE_NAME = "bruxaria-cache-v2";
 const urlsToCache = [
   "/",
   "/index.html",
@@ -14,7 +14,7 @@ const urlsToCache = [
 self.addEventListener("install", event => {
   console.log("Service Worker instalado");
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)).then(() => self.skipWaiting())
   );
 });
 
@@ -27,23 +27,21 @@ self.addEventListener("activate", event => {
           if (key !== CACHE_NAME) return caches.delete(key);
         })
       )
-    )
+    ).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener("fetch", event => {
   const url = new URL(event.request.url);
-  
-  // Para arquivos HTML (regras, galeria, etc), usa "network first"
-  if (event.request.url.endsWith('.html')) {
+  const isHTML = event.request.mode === 'navigate' || url.pathname.endsWith('.html');
+
+  if (isHTML) {
     event.respondWith(
       fetch(event.request)
         .then(response => {
           if (response.ok) {
             const responseClone = response.clone();
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, responseClone);
-            });
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
             return response;
           }
           return caches.match(event.request) || response;
@@ -51,7 +49,6 @@ self.addEventListener("fetch", event => {
         .catch(() => caches.match(event.request))
     );
   } else {
-    // Para CSS, imagens e outros recursos, usa "cache first"
     event.respondWith(
       caches.match(event.request).then(resp => resp || fetch(event.request))
     );
