@@ -119,25 +119,58 @@
   </div>
 
   <script>
-    // Carregar regras ao abrir a página
-    document.addEventListener('DOMContentLoaded', () => {
+    function aplicarFormatoRegras(container) {
+      container.querySelectorAll('text, p, div').forEach(el => {
+        if (!el.querySelector('*')) {
+          el.style.marginBottom = '15px';
+        }
+      });
+    }
+
+    function mostrarRegrasHTML(html) {
+      const regrasContainer = document.getElementById('regrasContainer');
+      regrasContainer.innerHTML = html;
+      aplicarFormatoRegras(regrasContainer);
+    }
+
+    async function carregarRegras() {
       const regrasContainer = document.getElementById('regrasContainer');
       const regrasSalvas = localStorage.getItem('bruxaria_regras');
-      
+
+      try {
+        const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+        const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+
+        const firebaseConfig = {
+          apiKey: "SUA_API_KEY",
+          authDomain: "ranking-campeoes.firebaseapp.com",
+          projectId: "ranking-campeoes",
+          storageBucket: "ranking-campeoes.firebasestorage.app",
+          messagingSenderId: "1049217546195",
+          appId: "1:1049217546195:web:6a10959a84949e3456e126"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const regrasDoc = doc(db, 'config', 'regras');
+        const docSnap = await getDoc(regrasDoc);
+
+        if (docSnap.exists() && docSnap.data().html) {
+          mostrarRegrasHTML(docSnap.data().html);
+          return;
+        }
+      } catch (error) {
+        console.warn('Não foi possível carregar regras do servidor:', error);
+      }
+
       if (regrasSalvas) {
-        // Exibir HTML formatado (com negrito, itálico, etc)
-        regrasContainer.innerHTML = regrasSalvas;
-        
-        // Adicionar estilo de parágrafo se não tiver
-        regrasContainer.querySelectorAll('text, p, div').forEach(el => {
-          if (!el.querySelector('*')) {
-            el.style.marginBottom = '15px';
-          }
-        });
+        mostrarRegrasHTML(regrasSalvas);
       } else {
         regrasContainer.innerHTML = '<div class="regras-vazio">📋 As regras do campeonato ainda não foram definidas.<br><br>Por favor, aguarde a configuração pelo administrador.</div>';
       }
-    });
+    }
+
+    carregarRegras();
 
     // MENU HAMBURGER
     const hamburger = document.querySelector('.menu-hamburger');

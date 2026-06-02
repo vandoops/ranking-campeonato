@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   // Salvar regras
-  salvarBtn.addEventListener('click', () => {
+  salvarBtn.addEventListener('click', async () => {
     const regrasHTML = editor.innerHTML.trim();
     const regrasTexto = editor.innerText.trim();
     
@@ -350,7 +350,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
     localStorage.setItem('bruxaria_regras', regrasHTML);
     localStorage.setItem('bruxaria_regras_texto', regrasTexto);
-    mensagemRegras.innerHTML = '<span class="feedback-success">✅ Regras salvas com sucesso! 🎉</span>';
+
+    let salvaServidor = true;
+    if (window.firestoreSetDoc && window.firestoreDoc && window.firestoreDb && window.firestoreServerTimestamp) {
+      try {
+        await window.firestoreSetDoc(window.firestoreDoc(window.firestoreDb, 'config', 'regras'), {
+          html: regrasHTML,
+          texto: regrasTexto,
+          updated: window.firestoreServerTimestamp()
+        });
+      } catch (error) {
+        salvaServidor = false;
+        console.error('Erro salvando regras no Firebase:', error);
+      }
+    } else {
+      salvaServidor = false;
+      console.warn('Firebase ainda não está pronto, salvando apenas localmente.');
+    }
+
+    mensagemRegras.innerHTML = `<span class="feedback-success">✅ Regras salvas com sucesso! ${salvaServidor ? '' : '⚠️ Regras salvas localmente, mas não no servidor.'}</span>`;
     salvarBtn.classList.add('btn-success');
     
     setTimeout(() => {
@@ -382,7 +400,9 @@ query,
 orderBy,
 serverTimestamp,
 getDocs,
-updateDoc
+updateDoc,
+setDoc,
+getDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
@@ -399,6 +419,12 @@ appId: "1:1049217546195:web:6a10959a84949e3456e126"
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// Expor algumas funções Firebase para o script não-module que salva regras
+window.firestoreDb = db;
+window.firestoreDoc = doc;
+window.firestoreSetDoc = setDoc;
+window.firestoreServerTimestamp = serverTimestamp;
 
 /* ================= ELEMENTOS ================= */
 
